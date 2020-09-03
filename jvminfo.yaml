@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    ansible_python_interpreter: /Users/celeguim/Python-Envs/Ansible-Docker/bin/python3
+
+  tasks:
+    - name: Ensure Docker image is built from Dockerfile
+      docker_image:
+        name: jvminfo
+        # tag: v1
+        source: build
+        build:
+          path: .
+          pull: no
+        state: present
+        push: no
+
+    - name: Ensure jvminfo container is running
+      docker_container:
+        image: jvminfo:latest
+        name: jvminfo
+        state: started
+        exposed_ports: "8081"
+        published_ports: "18080:8081"
