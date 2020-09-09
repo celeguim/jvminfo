@@ -7,18 +7,18 @@
   tasks:
     - name: Ensure Docker image is built from Dockerfile
       docker_image:
-        name: jvminfo
-        # tag: v1
+        name: celeguim/jvminfo
+        tag: v1
         source: build
         build:
           path: .
-          pull: no
+          pull: yes
         state: present
-        push: no
+        push: yes
 
     - name: Ensure jvminfo container is running
       docker_container:
-        image: jvminfo:latest
+        image: celeguim/jvminfo:v1
         name: jvminfo
         state: started
         exposed_ports: "8081"
