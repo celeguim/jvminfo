@@ -2,6 +2,9 @@ package com.celeguim.jvminfo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -17,7 +20,18 @@ public class JvminfoApplication {
 		String sessionId = session.getId();
 		String hostname = shell_exec("hostname");
 		hostname = hostname.replace("%", "");
-		return "Session Id: " + sessionId + "\n</br>" + "hostname: " + hostname + "\n";
+		InetAddress ip = null;
+
+		try {
+			ip = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
+		String retorno = String.format("<HTML><BODY>Session: %s<br>Hostname: %s<br>InetAddress: %s</BODY></HTML>",
+				sessionId, hostname, ip);
+
+		return retorno;
 	}
 
 	public static void main(String[] args) {
