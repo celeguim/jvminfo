@@ -31,6 +31,7 @@ public class JvminfoApplication {
 		String retorno = String.format("<HTML><BODY>Session: %s<br>Hostname: %s<br>InetAddress: %s</BODY></HTML>",
 				sessionId, hostname, ip);
 
+		
 		return retorno;
 	}
 
