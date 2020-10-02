@@ -22,4 +22,5 @@
 /nbbuild/
 /dist/
 /nbdist/
-/.nb-gradle/
+/.nb-gradle/spring-boot-app.log
+spring-boot-app.log
