@@ -12,10 +12,15 @@
 
 <html>
 <head>
-<title>JVM Info by Celeguim</title>
+	<title>JVM Info by Celeguim</title>
+	<style type="text/css">
+		table, th, td {
+		  border: 1px solid;
+		  padding: 5px;
+		}
+	</style>
 </head>
 <body bgcolor="white">
-<h3>Welcome!</h3>
 
 <%
 	session.setAttribute("dummyData", new java.util.Date());
@@ -56,11 +61,11 @@
 		<td><%=session.getId()%></td>
 	</tr>
 	<tr>
-		<td width="150">InetAddress</td>
+		<td width="150">Hostname/IP</td>
 		<td><%=ip%></td>
 	</tr>
 	<tr>
-		<td width="150">Hora da JVM</td>
+		<td width="150">Date/time </td>
 		<td><%=agora%></td>
 	</tr>
 	<tr>
@@ -134,12 +139,12 @@
 		<td><%=dst + "h"%></td>
 	</tr>
 	<tr>
-		<td width="150">JVM Arguments</td>
-		<td><%=argumentos.toString()%></td>
+		<td width="150">App Server </td>
+		<td><%=application.getServerInfo()%></td>
 	</tr>
 	<tr>
-		<td width="150">Server Info</td>
-		<td><%=application.getServerInfo()%></td>
+		<td width="150">App Server Arguments </td>
+		<td><%=argumentos.toString()%></td>
 	</tr>
 </table>
 
