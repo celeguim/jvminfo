@@ -23,6 +23,11 @@ public class JvmInfo extends HttpServlet {
 
 		HttpSession session = request.getSession(true);
 		Cookie myCookie = new Cookie("MY_COOKIE", session.getId());
+		String path = request.getServletContext().getContextPath();
+		path = path + "/jvminfo";
+		myCookie.setPath(path);
+		String domain = request.getServerName();
+		myCookie.setDomain(domain);
 		response.addCookie(myCookie);
 
 		InetAddress ip = null;
@@ -42,6 +47,8 @@ public class JvmInfo extends HttpServlet {
 		builder.append(String.format("<td width='150'> %s </td></tr>", ip));
 		builder.append(String.format("<tr><td width='150'> %s </td>", myCookie.getName()));
 		builder.append(String.format("<td width='150'> %s </td></tr>", myCookie.getValue()));
+		builder.append(String.format("<tr><td width='150'> %s </td>", myCookie.getPath()));
+		builder.append(String.format("<td width='150'> %s </td></tr>", myCookie.getDomain()));
 		builder.append("</table>");
 		response.getWriter().append(builder.toString());
 	}
