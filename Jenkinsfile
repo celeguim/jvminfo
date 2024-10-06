@@ -1,9 +1,10 @@
+# test web hook
 pipeline {
     agent any
     stages {
         stage('Build for Jenkins Webhook') {
             steps {
-                sh 'echo "Build completed" '
+                sh 'echo "Update 1: Build completed" '
             }
         }
     }
