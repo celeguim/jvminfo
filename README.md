@@ -1,5 +1,7 @@
 # jvminfo
 
+Added Jenkins webhook build 
+
 Simple java application to get and print docker/server name
 
 
@@ -14,7 +16,7 @@ docker run -e JAVA_OPTS="-Xms64m -Xmx128m" -d -p 8080:8080 celeguim/jvminfo:v3
 ```shell
 BUILD
 
-docker build -t celeguim/jvminfo:v3 .
+docker build -t celeguim/jvminfo:jenkins .
 
-docker push celeguim/jvminfo:v3
+docker push celeguim/jvminfo:jenkins
 ```
