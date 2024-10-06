@@ -1,4 +1,6 @@
-# test web hook
+/*
+test web hook
+*/
 pipeline {
     agent any
     stages {
