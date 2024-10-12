@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +23,21 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class JvmInfoController {
 
-//	@Autowired
-//	private ApplicationContext applicationContext;
+	@Autowired
+	private ApplicationContext applicationContext;
+
+	@Autowired
+	Environment env;
 
 	@GetMapping(value = "/")
 	String getHome(ModelMap model) {
+
+		// while (applicationContext.getpara) {
+		// 	String key = (String) applicationContext.getAttributeNames().nextElement();
+		// 	String value = (String) applicationContext.getAttribute(key);
+		// 	System.out.printf("{%s}:{%s}", key, value);
+		// }
+
 		long mb = 1024 * 1024;
 		Runtime runtime = Runtime.getRuntime();
 		long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
@@ -40,14 +53,14 @@ public class JvmInfoController {
 		String hostname = null;
 
 		while (it.hasNext()) {
-			argumentos.append(it.next() + "\n");
+			argumentos.append(it.next() + " \n");
 		}
 
 		try {
 			ip = InetAddress.getLocalHost();
 			hostname = ip.getHostName();
-//			System.out.println("Your current IP address : " + ip);
-//			System.out.println("Your current Hostname : " + hostname);
+			// System.out.println("Your current IP address : " + ip);
+			// System.out.println("Your current Hostname : " + hostname);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}

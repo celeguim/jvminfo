@@ -4,15 +4,15 @@ Simple java application to get and print docker/server name
 
 
 ```shell
-RUN
+# RUN
 
-docker run -e JAVA_OPTS="-Xms64m -Xmx128m" -d -p 8080:8080 celeguim/jvminfo:v3
+docker run -e JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC" -d -p 8080:8080 celeguim/jvminfo:v3
 ```
 
-###### TEST </br>[http://localhost:8080/jvminfo/](http://localhost:8080/jvminfo/)
+###### TEST </br>[http://localhost:8080/jvminfo/](http://localhost:8080/)
 
 ```shell
-BUILD
+# BUILD
 
 docker build -t celeguim/jvminfo:v3 .
 
