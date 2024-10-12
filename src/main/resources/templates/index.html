@@ -115,7 +115,16 @@
 			<td style="width: 50%; vertical-align: baseline;">
 				<table style="width: 100%;">
 					<tr>
-						<td>Docker instruction<br>1. build<br>2. run</td>
+						<td>
+							Instructions <br><br>
+							docker run \<br>
+							-e JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC" \<br>
+							-e JAR_ARGS="par1=val1 par2=val2" \<br>
+							-d -p 8080:8080 celeguim/jvminfo:v3<br>
+							<br>
+							JAVA_OPTS is the Server Arguments <br>
+							JAR_ARGS is the App Arguments <br><br>
+						</td>
 					</tr>
 				</table>
 			</td>
