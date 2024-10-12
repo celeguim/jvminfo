@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -23,20 +24,14 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class JvmInfoController {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+	private final ApplicationArguments applicationArguments;
 
-	@Autowired
-	Environment env;
+	public JvmInfoController(ApplicationArguments applicationArguments) {
+		this.applicationArguments = applicationArguments;
+	}
 
 	@GetMapping(value = "/")
 	String getHome(ModelMap model) {
-
-		// while (applicationContext.getpara) {
-		// 	String key = (String) applicationContext.getAttributeNames().nextElement();
-		// 	String value = (String) applicationContext.getAttribute(key);
-		// 	System.out.printf("{%s}:{%s}", key, value);
-		// }
 
 		long mb = 1024 * 1024;
 		Runtime runtime = Runtime.getRuntime();
@@ -47,13 +42,20 @@ public class JvmInfoController {
 		Calendar calendar = Calendar.getInstance();
 		List<String> inputArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
 		Iterator<String> it = inputArgs.iterator();
-		StringBuffer argumentos = new StringBuffer();
 		Date agora = new Date(System.currentTimeMillis());
 		InetAddress ip = null;
 		String hostname = null;
 
+		StringBuffer serverArgs = new StringBuffer();
+		StringBuffer appArgs = new StringBuffer();
+
 		while (it.hasNext()) {
-			argumentos.append(it.next() + " \n");
+			serverArgs.append(it.next()).append(" ");
+		}
+
+		// Get all non-option arguments
+		for (String arg : applicationArguments.getSourceArgs()) {
+			appArgs.append(arg).append(" ");
 		}
 
 		try {
@@ -84,7 +86,7 @@ public class JvmInfoController {
 		jvmInfoObj.maxMem = String.valueOf(maxMem);
 		jvmInfoObj.remoteHost = request.getRemoteHost();
 		jvmInfoObj.remotePort = String.valueOf(request.getRemotePort());
-		jvmInfoObj.serverArgs = argumentos.toString();
+		jvmInfoObj.serverArgs = serverArgs.toString();
 		jvmInfoObj.serverInfo = "Tomcat";
 		jvmInfoObj.serverName = request.getServerName();
 		jvmInfoObj.serverPort = String.valueOf(request.getServerPort());
@@ -92,7 +94,7 @@ public class JvmInfoController {
 		jvmInfoObj.totalMem = String.valueOf(totalMem);
 		jvmInfoObj.usedMem = String.valueOf(usedMem);
 		jvmInfoObj.ip = ip.toString();
-		jvmInfoObj.argumentos = argumentos.toString();
+		jvmInfoObj.appArgs = appArgs.toString();
 
 		model.addAttribute("jvmInfoObj", jvmInfoObj);
 		session.invalidate();

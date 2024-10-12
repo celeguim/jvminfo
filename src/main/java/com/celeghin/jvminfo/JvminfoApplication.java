@@ -13,7 +13,6 @@ public class JvminfoApplication {
 		}
 
 		SpringApplication.run(JvminfoApplication.class, args);
-
 	}
 
 }

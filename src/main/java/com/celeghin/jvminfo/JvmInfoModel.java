@@ -24,5 +24,5 @@ public class JvmInfoModel {
 	public String ip;
 	public String serverInfo;
 	public String serverArgs;
-	public String argumentos;
+	public String appArgs;
 }

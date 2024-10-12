@@ -102,8 +102,12 @@
 						<td th:text="${jvmInfoObj.serverInfo}" />
 					</tr>
 					<tr>
+						<td width="150">App Arguments</td>
+						<td th:text="${jvmInfoObj.appArgs}" />
+					</tr>
+					<tr>
 						<td width="150">App Server Arguments</td>
-						<td th:text="${jvmInfoObj.argumentos}" />
+						<td th:text="${jvmInfoObj.serverArgs}" />
 					</tr>
 				</table>
 			</td>
