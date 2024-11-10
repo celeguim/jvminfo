@@ -30,7 +30,7 @@ docker buildx create \
 
 # build image for arm64 and amd64
 docker buildx build \
- --tag celeguim/jvminfo:latest \
+ --tag celeguim/jvminfo:v2 \
  --platform linux/arm64/v8,linux/amd64 \
  --builder container \
  --push .
