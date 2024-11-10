@@ -3,133 +3,134 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>JVM Info by Celeguim</title>
-	<style type="text/css">
-		table,
-		th,
-		td {
-			border: 1px solid;
-			border-collapse: collapse;
-			padding: 5px;
-		}
-	</style>
+    <title>JVM Info by Celeguim</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid;
+            border-collapse: collapse;
+            padding: 5px;
+            width: 150px
+        }
+    </style>
 </head>
 
 <body>
 
-	<table style="width: 100%;">
-		<tr>
-			<td style="width: 50%;">
-				<table style="width: 100%;">
-					<tr>
-						<td width="150">JSESSIONID</td>
-						<td th:text="${jvmInfoObj.jessionId}" />
-					</tr>
-					<tr>
-						<td width="150">Hostname/IP</td>
-						<td th:text="${jvmInfoObj.ip}" />
-					</tr>
-					<tr>
-						<td width="150">Date/time</td>
-						<td th:text="${jvmInfoObj.dateTime}" />
-					</tr>
-					<tr>
-						<td width="150">Country</td>
-						<td th:text="${jvmInfoObj.country}" />
-					</tr>
-					<tr>
-						<td width="150">Display Country</td>
-						<td th:text="${jvmInfoObj.displayCountry}" />
-					</tr>
-					<tr>
-						<td width="150">Display Language</td>
-						<td th:text="${jvmInfoObj.displayLanguage}" />
-					</tr>
-					<tr>
-						<td width="150">Display Name</td>
-						<td th:text="${jvmInfoObj.displayName}" />
-					</tr>
-					<tr>
-						<td width="150">Local Address</td>
-						<td th:text="${jvmInfoObj.localAddress}" />
-					</tr>
-					<tr>
-						<td width="150">Local Name</td>
-						<td th:text="${jvmInfoObj.localName}" />
-					</tr>
-					<tr>
-						<td width="150">Local Port</td>
-						<td th:text="${jvmInfoObj.localPort}" />
-					</tr>
-					<tr>
-						<td width="150">Remote Host</td>
-						<td th:text="${jvmInfoObj.remoteHost}" />
-					</tr>
-					<tr>
-						<td width="150">Remote Port</td>
-						<td th:text="${jvmInfoObj.remotePort}" />
-					</tr>
-					<tr>
-						<td width="150">Server Name</td>
-						<td th:text="${jvmInfoObj.serverName}" />
-					</tr>
-					<tr>
-						<td width="150">Server Port</td>
-						<td th:text="${jvmInfoObj.serverPort}" />
-					</tr>
-					<tr>
-						<td width="150">Total Memory</td>
-						<td th:text="${jvmInfoObj.totalMem}" />
-					</tr>
-					<tr>
-						<td width="150">Used Memory</td>
-						<td th:text="${jvmInfoObj.usedMem}" />
-					</tr>
-					<tr>
-						<td width="150">Free Memory</td>
-						<td th:text="${jvmInfoObj.freeMem}" />
-					</tr>
-					<tr>
-						<td width="150">Max Memory</td>
-						<td th:text="${jvmInfoObj.maxMem}" />
-					</tr>
-					<tr>
-						<td width="150">Timezone</td>
-						<td th:text="${jvmInfoObj.timezone}" />
-					</tr>
-					<tr>
-						<td width="150">App Server</td>
-						<td th:text="${jvmInfoObj.serverInfo}" />
-					</tr>
-					<tr>
-						<td width="150">App Arguments</td>
-						<td th:text="${jvmInfoObj.appArgs}" />
-					</tr>
-					<tr>
-						<td width="150">App Server Arguments</td>
-						<td th:text="${jvmInfoObj.serverArgs}" />
-					</tr>
-				</table>
-			</td>
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 50%;">
+            <table style="width: 100%;">
+                <tr>
+                    <td>JSESSIONID</td>
+                    <td th:text="${jvmInfoObj.sessionId}"></td>
+                </tr>
+                <tr>
+                    <td>Hostname/IP</td>
+                    <td th:text="${jvmInfoObj.ip}"></td>
+                </tr>
+                <tr>
+                    <td>Date/time</td>
+                    <td th:text="${jvmInfoObj.dateTime}"></td>
+                </tr>
+                <tr>
+                    <td>Country</td>
+                    <td th:text="${jvmInfoObj.country}"></td>
+                </tr>
+                <tr>
+                    <td>Display Country</td>
+                    <td th:text="${jvmInfoObj.displayCountry}"></td>
+                </tr>
+                <tr>
+                    <td>Display Language</td>
+                    <td th:text="${jvmInfoObj.displayLanguage}"></td>
+                </tr>
+                <tr>
+                    <td>Display Name</td>
+                    <td th:text="${jvmInfoObj.displayName}"></td>
+                </tr>
+                <tr>
+                    <td>Local Address</td>
+                    <td th:text="${jvmInfoObj.localAddress}"></td>
+                </tr>
+                <tr>
+                    <td>Local Name</td>
+                    <td th:text="${jvmInfoObj.localName}"></td>
+                </tr>
+                <tr>
+                    <td>Local Port</td>
+                    <td th:text="${jvmInfoObj.localPort}"></td>
+                </tr>
+                <tr>
+                    <td>Remote Host</td>
+                    <td th:text="${jvmInfoObj.remoteHost}"></td>
+                </tr>
+                <tr>
+                    <td>Remote Port</td>
+                    <td th:text="${jvmInfoObj.remotePort}"></td>
+                </tr>
+                <tr>
+                    <td>Server Name</td>
+                    <td th:text="${jvmInfoObj.serverName}"></td>
+                </tr>
+                <tr>
+                    <td>Server Port</td>
+                    <td th:text="${jvmInfoObj.serverPort}"></td>
+                </tr>
+                <tr>
+                    <td>Total Memory</td>
+                    <td th:text="${jvmInfoObj.totalMem}"></td>
+                </tr>
+                <tr>
+                    <td>Used Memory</td>
+                    <td th:text="${jvmInfoObj.usedMem}"></td>
+                </tr>
+                <tr>
+                    <td>Free Memory</td>
+                    <td th:text="${jvmInfoObj.freeMem}"></td>
+                </tr>
+                <tr>
+                    <td>Max Memory</td>
+                    <td th:text="${jvmInfoObj.maxMem}"></td>
+                </tr>
+                <tr>
+                    <td>Timezone</td>
+                    <td th:text="${jvmInfoObj.timezone}"></td>
+                </tr>
+                <tr>
+                    <td>App Server</td>
+                    <td th:text="${jvmInfoObj.serverInfo}"></td>
+                </tr>
+                <tr>
+                    <td>App Arguments</td>
+                    <td th:text="${jvmInfoObj.appArgs}"></td>
+                </tr>
+                <tr>
+                    <td>App Server Arguments</td>
+                    <td th:text="${jvmInfoObj.serverArgs}"></td>
+                </tr>
+            </table>
+        </td>
 
-			<td style="width: 50%; vertical-align: baseline;">
-				<table style="width: 100%;">
-					<tr>
-						<td>
-							Instructions <br><br>
-							docker run \<br>
-							-e JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC" \<br>
-							-e JAR_ARGS="par1=val1 par2=val2" \<br>
-							-d -p 8080:8080 celeguim/jvminfo:v3<br>
-							<br>
-							JAVA_OPTS is the Server Arguments <br>
-							JAR_ARGS is the App Arguments <br><br>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
+        <td style="width: 50%; vertical-align: baseline;">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        Instructions <br><br>
+                        docker run \<br>
+                        -e JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC" \<br>
+                        -e JAR_ARGS="par1=val1 par2=val2" \<br>
+                        -d -p 8080:8080 celeguim/jvminfo:v3<br>
+                        <br>
+                        JAVA_OPTS is the Server Arguments <br>
+                        JAR_ARGS is the App Arguments <br><br>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
 </body>
 

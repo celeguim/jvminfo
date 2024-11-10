@@ -1,5 +1,14 @@
 package com.celeghin.jvminfo;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -7,19 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class JvmInfoController {
@@ -46,8 +42,8 @@ public class JvmInfoController {
 		InetAddress ip = null;
 		String hostname = null;
 
-		StringBuffer serverArgs = new StringBuffer();
-		StringBuffer appArgs = new StringBuffer();
+		StringBuilder serverArgs = new StringBuilder();
+		StringBuilder appArgs = new StringBuilder();
 
 		while (it.hasNext()) {
 			serverArgs.append(it.next()).append(" ");
@@ -61,8 +57,6 @@ public class JvmInfoController {
 		try {
 			ip = InetAddress.getLocalHost();
 			hostname = ip.getHostName();
-			// System.out.println("Your current IP address : " + ip);
-			// System.out.println("Your current Hostname : " + hostname);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -79,7 +73,7 @@ public class JvmInfoController {
 		jvmInfoObj.displayName = request.getLocale().getDisplayName();
 		jvmInfoObj.freeMem = String.valueOf(freeMem);
 		jvmInfoObj.hostname = hostname;
-		jvmInfoObj.jessionId = session.getId();
+		jvmInfoObj.sessionId = session.getId();
 		jvmInfoObj.localAddress = request.getLocalAddr();
 		jvmInfoObj.localName = request.getLocalName();
 		jvmInfoObj.localPort = String.valueOf(request.getLocalPort());

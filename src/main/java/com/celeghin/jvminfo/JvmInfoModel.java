@@ -1,7 +1,7 @@
 package com.celeghin.jvminfo;
 
 public class JvmInfoModel {
-	public String jessionId;
+	public String sessionId;
 	public String hostname;
 	public String dateTime;
 	public String country;
@@ -20,7 +20,6 @@ public class JvmInfoModel {
 	public String freeMem;
 	public String maxMem;
 	public String timezone;
-	public String dst;
 	public String ip;
 	public String serverInfo;
 	public String serverArgs;
