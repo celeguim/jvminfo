@@ -14,14 +14,3 @@ ENV JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC"
 ENV JAR_ARGS="arg1=val1 arg2=val2"
 
 ENTRYPOINT exec java -jar ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom /app.jar ${JAR_ARGS}
-# ENTRYPOINT ["java","-jar","${JAVA_OPTS}","-Djava.security.egd=file:/dev/./urandom","/app.jar","${JAR_ARGS}"]
-
-#docker buildx create \
-#--name container \
-#--driver=docker-container
-
-#docker buildx build \
-# --tag celeguim/jvminfo:latest \
-# --platform linux/arm64/v8,linux/amd64 \
-# --builder container \
-# --push .

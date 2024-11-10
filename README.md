@@ -1,6 +1,6 @@
 # jvminfo
 
-Simple java application to get and print docker/server name
+Simple java application to create an HTML Table with the most important JVM properties
 
 
 ```shell
@@ -18,7 +18,21 @@ docker run \
 ```shell
 # BUILD
 
+# build for single platform
 docker build -t celeguim/jvminfo:v3 .
-
 docker push celeguim/jvminfo:v3
+
+# build for multi platform
+# create the builder as docker-container
+docker buildx create \
+--name container \
+--driver=docker-container
+
+# build image for arm64 and amd64
+docker buildx build \
+ --tag celeguim/jvminfo:latest \
+ --platform linux/arm64/v8,linux/amd64 \
+ --builder container \
+ --push .
+
 ```
