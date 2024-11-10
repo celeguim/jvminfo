@@ -27,36 +27,38 @@
                     <td style="color:blue;font-weight:bold;">V3</td>
                 </tr>
                 <tr>
+                    <td>Date/time</td>
+                    <td th:text="${jvmInfoObj.dateTime}"></td>
+                </tr>
+                <tr>
                     <td>JSESSIONID</td>
                     <td th:text="${jvmInfoObj.sessionId}"></td>
                 </tr>
+
+                <tr>
+                    <td>JVM / Version</td>
+                    <td th:text="${jvmInfoObj.jvm}"></td>
+                </tr>
+                <tr>
+                    <td>Java Class Version</td>
+                    <td th:text="${jvmInfoObj.javaClassVersion}"></td>
+                </tr>
+                <tr>
+                    <td>OS / Version / Arch</td>
+                    <td th:text="${jvmInfoObj.os}"></td>
+                </tr>
+
                 <tr>
                     <td>Hostname/IP</td>
                     <td th:text="${jvmInfoObj.ip}"></td>
-                </tr>
-                <tr>
-                    <td>Date/time</td>
-                    <td th:text="${jvmInfoObj.dateTime}"></td>
                 </tr>
                 <tr>
                     <td>Country</td>
                     <td th:text="${jvmInfoObj.country}"></td>
                 </tr>
                 <tr>
-                    <td>Display Country</td>
-                    <td th:text="${jvmInfoObj.displayCountry}"></td>
-                </tr>
-                <tr>
                     <td>Display Language</td>
                     <td th:text="${jvmInfoObj.displayLanguage}"></td>
-                </tr>
-                <tr>
-                    <td>Display Name</td>
-                    <td th:text="${jvmInfoObj.displayName}"></td>
-                </tr>
-                <tr>
-                    <td>Local Address</td>
-                    <td th:text="${jvmInfoObj.localAddress}"></td>
                 </tr>
                 <tr>
                     <td>Local Name</td>
