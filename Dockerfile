@@ -1,7 +1,16 @@
-FROM openjdk:11-jdk
-MAINTAINER <luiz.celeguim@gmail.com>
-EXPOSE 8081
-ENV _JAVA_OPTIONS "-Xms256m -Xmx512m -Djava.awt.headless=true"
-VOLUME /data
-COPY target/jvminfo-0.0.1-SNAPSHOT.jar /app/jvminfo.jar
-CMD ["java", "-jar", "/app/jvminfo.jar"]
+###############################
+# Build Stage
+FROM maven:3.8.3-openjdk-17 AS build_image
+RUN git clone -b jvminfo-v3 https://github.com/celeguim/jvminfo.git
+RUN cd jvminfo && mvn clean install
+
+###############################
+# Runtime Stage
+FROM eclipse-temurin:17-jdk-alpine
+COPY --from=build_image ./jvminfo/target/jvminfo*.jar /app.jar
+EXPOSE 8080
+
+ENV JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC"
+ENV JAR_ARGS="arg1=val1 arg2=val2"
+
+ENTRYPOINT exec java -jar ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom /app.jar ${JAR_ARGS}
