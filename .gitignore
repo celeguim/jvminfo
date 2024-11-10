@@ -1,5 +1,6 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+.vscode
 
 ### STS ###
 .apt_generated
@@ -24,3 +25,4 @@
 /nbdist/
 /.nb-gradle/spring-boot-app.log
 spring-boot-app.log
+/.DS_Store
