@@ -24,4 +24,8 @@ public class JvmInfoModel {
 	public String serverInfo;
 	public String serverArgs;
 	public String appArgs;
+
+	public String jvm;
+	public String os;
+	public String javaClassVersion;
 }
