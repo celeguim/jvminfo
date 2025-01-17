@@ -20,107 +20,144 @@ import java.util.List;
 @Controller
 public class JvmInfoController {
 
-    private final ApplicationArguments applicationArguments;
+	private final ApplicationArguments applicationArguments;
 
-    public JvmInfoController(ApplicationArguments applicationArguments) {
-        this.applicationArguments = applicationArguments;
-    }
+	public JvmInfoController(ApplicationArguments applicationArguments) {
+		this.applicationArguments = applicationArguments;
+	}
 
-    @GetMapping(value = "/")
-    String getHome(ModelMap model) {
+	@GetMapping(value = "/cpuIntensiveTask")
+	String getCpuIntensiveTask(ModelMap model) {
+		
+        int numThreads = 2; // Number of threads
 
-        long mb = 1024 * 1024;
-        Runtime runtime = Runtime.getRuntime();
-        long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
-        long freeMem = (runtime.freeMemory() / mb);
-        long totalMem = (runtime.totalMemory() / mb);
-        long maxMem = (runtime.maxMemory() / mb);
-        Calendar calendar = Calendar.getInstance();
-        List<String> inputArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
-        Iterator<String> it = inputArgs.iterator();
-        Date agora = new Date(System.currentTimeMillis());
-        InetAddress ip = null;
-        String hostname = null;
+        // Start CPU-intensive task in a separate thread
+        Thread[] cpuIntensiveTask = new Thread[numThreads];
+        for (int i=0; i<numThreads; i++) {
+            cpuIntensiveTask[i] = new Thread(()-> {
+                while (true) {
+                    // Simulate CPU-intensive computation
+                    double result = Math.sin(Math.random()) * Math.cos(Math.random());
 
-        StringBuilder serverArgs = new StringBuilder();
-        StringBuilder appArgs = new StringBuilder();
-
-        while (it.hasNext()) {
-            serverArgs.append(it.next()).append(" ");
+                    // Print result to avoid optimization
+                    System.out.println(Thread.currentThread().getName() + " : cpuIntensiveTask : " + result);
+                }
+            });
         }
+		
+		JvmInfoModel jvmInfoObj = new JvmInfoModel();
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpSession session = attr.getRequest().getSession();
 
-        // Get all non-option arguments
-        for (String arg : applicationArguments.getSourceArgs()) {
-            appArgs.append(arg).append(" ");
-        }
+		jvmInfoObj.dateTime = new Date(System.currentTimeMillis()).toString();
+		jvmInfoObj.sessionId = session.getId();
 
-        try {
-            ip = InetAddress.getLocalHost();
-            hostname = ip.getHostName();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+		jvmInfoObj.jvm = String.format("%s / %s", System.getProperty("java.vm.name"), System.getProperty("java.vm.version"));
+		jvmInfoObj.javaClassVersion = String.format("%s", System.getProperty("java.class.version"));
+		 
+		long mb = 1024 * 1024;
+		Runtime runtime = Runtime.getRuntime();
+		long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
+		long freeMem = (runtime.freeMemory() / mb);
+		long totalMem = (runtime.totalMemory() / mb);
+		long maxMem = (runtime.maxMemory() / mb);
+		
+		jvmInfoObj.maxMem = String.valueOf(maxMem);
+		jvmInfoObj.freeMem = String.valueOf(freeMem);
+		jvmInfoObj.totalMem = String.valueOf(totalMem);
+		jvmInfoObj.usedMem = String.valueOf(usedMem);
+		
+		model.addAttribute("jvmInfoObj", jvmInfoObj);
+		session.invalidate();
 
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = attr.getRequest().getSession();
-        HttpServletRequest request = attr.getRequest();
+		return "cpuIntensiveTask";
+	}
+	
+	
+	@GetMapping(value = "/")
+	String getHome(ModelMap model) {
 
-        JvmInfoModel jvmInfoObj = new JvmInfoModel();
+		long mb = 1024 * 1024;
+		Runtime runtime = Runtime.getRuntime();
+		long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
+		long freeMem = (runtime.freeMemory() / mb);
+		long totalMem = (runtime.totalMemory() / mb);
+		long maxMem = (runtime.maxMemory() / mb);
 
-        jvmInfoObj.country = String.format("%s / %s",
-                request.getLocale().getCountry(), request.getLocale().getDisplayCountry());
-//		jvmInfoObj.displayCountry = request.getLocale().getDisplayCountry();
+		Calendar calendar = Calendar.getInstance();
+		List<String> inputArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+		Iterator<String> it = inputArgs.iterator();
+		Date agora = new Date(System.currentTimeMillis());
 
-        jvmInfoObj.displayLanguage = String.format("%s / %s",
-                request.getLocale().getDisplayLanguage(), request.getLocale().getDisplayName());
-//        jvmInfoObj.displayName = request.getLocale().getDisplayName();
+		InetAddress ip = null;
+		String hostname = null;
 
-        jvmInfoObj.localName = String.format("%s / %s",
-                request.getLocalName(), request.getLocalAddr());
-//        jvmInfoObj.localAddress = request.getLocalAddr();
+		StringBuilder serverArgs = new StringBuilder();
+		StringBuilder appArgs = new StringBuilder();
 
-        jvmInfoObj.dateTime = agora.toString();
-        jvmInfoObj.hostname = hostname;
-        jvmInfoObj.ip = ip.toString();
-        jvmInfoObj.sessionId = session.getId();
+		while (it.hasNext()) {
+			serverArgs.append(it.next()).append(" ");
+		}
 
-//Prop: java.vm.name : OpenJDK 64-Bit Server VM
-//Prop: java.vm.version : 17.0.13+0
+		// Get all non-option arguments
+		for (String arg : applicationArguments.getSourceArgs()) {
+			appArgs.append(arg).append(" ");
+		}
 
-//Prop: os.version : 14.7.1
-//Prop: os.arch : aarch64
+		try {
+			ip = InetAddress.getLocalHost();
+			hostname = ip.getHostName();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 
-//Prop: java.class.version : 61.0
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpSession session = attr.getRequest().getSession();
+		HttpServletRequest request = attr.getRequest();
 
-        jvmInfoObj.jvm = String.format("%s / %s",
-                System.getProperty("java.vm.name"), System.getProperty("java.vm.version"));
-        jvmInfoObj.os = String.format("%s / %s / %s",
-                System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"));
-        jvmInfoObj.javaClassVersion = String.format("%s",
-                System.getProperty("java.class.version"));
+		JvmInfoModel jvmInfoObj = new JvmInfoModel();
 
-        jvmInfoObj.maxMem = String.valueOf(maxMem);
-        jvmInfoObj.freeMem = String.valueOf(freeMem);
-        jvmInfoObj.totalMem = String.valueOf(totalMem);
-        jvmInfoObj.usedMem = String.valueOf(usedMem);
+		jvmInfoObj.country = String.format("%s / %s", request.getLocale().getCountry(),
+				request.getLocale().getDisplayCountry());
 
-        jvmInfoObj.serverName = request.getServerName();
-        jvmInfoObj.serverPort = String.valueOf(request.getServerPort());
+		jvmInfoObj.displayLanguage = String.format("%s / %s", request.getLocale().getDisplayLanguage(),
+				request.getLocale().getDisplayName());
 
-        jvmInfoObj.localPort = String.valueOf(request.getLocalPort());
+		jvmInfoObj.localName = String.format("%s / %s", request.getLocalName(), request.getLocalAddr());
 
-        jvmInfoObj.remoteHost = request.getRemoteHost();
-        jvmInfoObj.remotePort = String.valueOf(request.getRemotePort());
+		jvmInfoObj.dateTime = agora.toString();
+		jvmInfoObj.hostname = hostname;
+		jvmInfoObj.ip = ip.toString();
+		jvmInfoObj.sessionId = session.getId();
 
-        jvmInfoObj.serverArgs = serverArgs.toString();
-        jvmInfoObj.serverInfo = "Tomcat";
-        jvmInfoObj.timezone = calendar.getTimeZone().getDisplayName();
-        jvmInfoObj.appArgs = appArgs.toString();
+		jvmInfoObj.jvm = String.format("%s / %s", System.getProperty("java.vm.name"),
+				System.getProperty("java.vm.version"));
+		jvmInfoObj.os = String.format("%s / %s / %s", System.getProperty("os.name"), System.getProperty("os.version"),
+				System.getProperty("os.arch"));
+		jvmInfoObj.javaClassVersion = String.format("%s", System.getProperty("java.class.version"));
 
-        model.addAttribute("jvmInfoObj", jvmInfoObj);
-        session.invalidate();
+		jvmInfoObj.maxMem = String.valueOf(maxMem);
+		jvmInfoObj.freeMem = String.valueOf(freeMem);
+		jvmInfoObj.totalMem = String.valueOf(totalMem);
+		jvmInfoObj.usedMem = String.valueOf(usedMem);
 
-        return "index";
-    }
+		jvmInfoObj.serverName = request.getServerName();
+		jvmInfoObj.serverPort = String.valueOf(request.getServerPort());
+
+		jvmInfoObj.localPort = String.valueOf(request.getLocalPort());
+
+		jvmInfoObj.remoteHost = request.getRemoteHost();
+		jvmInfoObj.remotePort = String.valueOf(request.getRemotePort());
+
+		jvmInfoObj.serverArgs = serverArgs.toString();
+		jvmInfoObj.serverInfo = "Tomcat";
+		jvmInfoObj.timezone = calendar.getTimeZone().getDisplayName();
+		jvmInfoObj.appArgs = appArgs.toString();
+
+		model.addAttribute("jvmInfoObj", jvmInfoObj);
+		session.invalidate();
+
+		return "index";
+	}
 
 }
