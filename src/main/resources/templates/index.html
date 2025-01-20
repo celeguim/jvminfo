@@ -53,14 +53,6 @@
                     <td th:text="${jvmInfoObj.ip}"></td>
                 </tr>
                 <tr>
-                    <td>Country</td>
-                    <td th:text="${jvmInfoObj.country}"></td>
-                </tr>
-                <tr>
-                    <td>Display Language</td>
-                    <td th:text="${jvmInfoObj.displayLanguage}"></td>
-                </tr>
-                <tr>
                     <td>Local Name</td>
                     <td th:text="${jvmInfoObj.localName}"></td>
                 </tr>
@@ -100,14 +92,22 @@
                     <td>-XX:MaxRAMPercentage</td>
                     <td th:text="${jvmInfoObj.maxRam}"></td>
                 </tr>
-                <tr>
-                    <td>Free Memory</td>
-                    <td th:text="${jvmInfoObj.freeMem}"></td>
-                </tr>
-                <tr>
-                    <td>App Server</td>
-                    <td th:text="${jvmInfoObj.serverInfo}"></td>
-                </tr>
+				<tr>
+				    <td>Total Memory Xms</td>
+				    <td th:text="${jvmInfoObj.totalMem}"></td>
+				</tr>
+				<tr>
+				    <td>Max Memory Xmx</td>
+				    <td th:text="${jvmInfoObj.maxMem}"></td>
+				</tr>
+				<tr>
+				    <td>Used Memory</td>
+				    <td th:text="${jvmInfoObj.usedMem}"></td>
+				</tr>
+				<tr>
+				    <td>Free Memory</td>
+				    <td th:text="${jvmInfoObj.freeMem}"></td>
+				</tr>
                 <tr>
                     <td>App Arguments</td>
                     <td th:text="${jvmInfoObj.appArgs}"></td>

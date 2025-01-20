@@ -19,20 +19,16 @@ docker run \
 # BUILD
 
 # build for single platform
-docker build -t celeguim/jvminfo:v3 .
-docker push celeguim/jvminfo:v3
+docker build -t celeguim/jvminfo:v4 .
+docker push celeguim/jvminfo:v4
 
 # build for multi platform
 # create the builder as docker-container
-docker buildx create \
---name container \
---driver=docker-container
+docker buildx create --name container --driver=docker-container
 
 # build image for arm64 and amd64
-docker buildx build \
- --tag celeguim/jvminfo:latest \
- --platform linux/arm64/v8,linux/amd64 \
- --builder container \
- --push .
+docker buildx build  --tag celeguim/jvminfo:v4  --platform linux/arm64/v8,linux/amd64  --builder container  --push .
+docker buildx build  --tag celeguim/jvminfo:latest  --platform linux/arm64/v8,linux/amd64  --builder container  --push .
+
 
 ```
