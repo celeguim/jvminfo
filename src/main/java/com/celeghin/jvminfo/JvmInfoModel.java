@@ -28,4 +28,9 @@ public class JvmInfoModel {
 	public String jvm;
 	public String os;
 	public String javaClassVersion;
+	
+	public String xms;
+	public String xmx;
+	public String xmn;
+	public String maxRam;
 }

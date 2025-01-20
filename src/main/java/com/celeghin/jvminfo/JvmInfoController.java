@@ -8,12 +8,14 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -43,24 +45,24 @@ public class JvmInfoController {
 		System.out.println("System.out.println message");
 
 		// Start memory-intensive task in the main thread
-		Thread[] memoryIntensiveTask = new Thread[numThreads];
-		for (int i = 0; i < numThreads; i++) {
-			memoryIntensiveTask[i] = new Thread(() -> {
-				while (true) {
-
-					globalStore.add();
-					globalStore.print();
-					logger.debug(String.valueOf(globalStore.get()));
-
-					try {
-						// Sleep for a short time to control memory allocation rate
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-					}
-				}
-			});
-		}
+//		Thread[] memoryIntensiveTask = new Thread[numThreads];
+//		for (int i = 0; i < numThreads; i++) {
+//			memoryIntensiveTask[i] = new Thread(() -> {
+//				while (true) {
+//
+//					globalStore.add();
+//					globalStore.print();
+//					logger.debug(String.valueOf(globalStore.get()));
+//
+//					try {
+//						// Sleep for a short time to control memory allocation rate
+//						Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//						Thread.currentThread().interrupt();
+//					}
+//				}
+//			});
+//		}
 
 		long mb = 1024 * 1024;
 		Runtime runtime = Runtime.getRuntime();
@@ -69,7 +71,6 @@ public class JvmInfoController {
 		long totalMem = (runtime.totalMemory() / mb);
 		long maxMem = (runtime.maxMemory() / mb);
 
-		
 		Calendar calendar = Calendar.getInstance();
 		List<String> inputArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
 		Iterator<String> it = inputArgs.iterator();
@@ -85,15 +86,19 @@ public class JvmInfoController {
 		String xms = null;
 		String xmn = null;
 		String maxRam = null;
-		
+
 		while (it.hasNext()) {
 			String token = it.next();
 			serverArgs.append(token).append(" ");
-			
-			if (token.contains("-Xms")) xms = token;
-			if (token.contains("-Xmx")) xmx = token;
-			if (token.contains("-Xmn")) xmn = token;
-			if (token.contains("-XX:MaxRAMPercentage")) maxRam = token;			
+
+			if (token.contains("-Xms"))
+				xms = token;
+			if (token.contains("-Xmx"))
+				xmx = token;
+			if (token.contains("-Xmn"))
+				xmn = token;
+			if (token.contains("-XX:MaxRAMPercentage"))
+				maxRam = token;
 		}
 
 		// Get all non-option arguments
@@ -137,6 +142,10 @@ public class JvmInfoController {
 		jvmInfoObj.freeMem = String.valueOf(freeMem);
 		jvmInfoObj.totalMem = String.valueOf(totalMem);
 		jvmInfoObj.usedMem = String.valueOf(usedMem);
+		jvmInfoObj.xms = xms;
+		jvmInfoObj.xmx = xmx;
+		jvmInfoObj.xmn = xmn;
+		jvmInfoObj.maxRam = maxRam;
 
 		jvmInfoObj.serverName = request.getServerName();
 		jvmInfoObj.serverPort = String.valueOf(request.getServerPort());
@@ -155,6 +164,61 @@ public class JvmInfoController {
 		session.invalidate();
 
 		return "index";
+	}
+
+	@GetMapping("/cpu-load")
+	public String generateCpuLoad(@RequestParam(name = "threads", defaultValue = "4") int threads) {
+		List<Thread> threadList = new ArrayList<Thread>();
+
+		for (int i = 0; i < threads; i++) {
+			Thread t = new Thread(() -> {
+				heavyComputation(); // Simulate CPU-heavy task
+			});
+			t.start();
+			threadList.add(t);
+		}
+
+		// Wait for all threads to complete
+		for (Thread t : threadList) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+
+		return "load";
+
+	}
+
+	private void heavyComputation() {
+		long start = System.currentTimeMillis();
+		double result = 0;
+		for (int i = 0; i < 100_000_000; i++) {
+			result += Math.sqrt(i) * Math.log(i + 1);
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("Thread " + Thread.currentThread().getName() + " completed in " + (end - start) + " ms");
+	}
+
+	private final List<byte[]> memoryList = new ArrayList<>(); // Holds allocated memory
+
+	@GetMapping("/memory-load")
+	public String allocateMemory(@RequestParam(name = "mb", defaultValue = "100") int mb) {
+		int arraySize = mb * 1024 * 1024; // Convert MB to bytes
+		try {
+			byte[] memoryChunk = new byte[arraySize]; // Allocate memory
+			memoryList.add(memoryChunk); // Store in list to prevent GC
+
+			Runtime runtime = Runtime.getRuntime();
+			long usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024);
+
+//            return "Allocated " + mb + "MB. Current used memory: " + usedMemory + "MB.";
+			return "load";
+
+		} catch (OutOfMemoryError e) {
+			return "OutOfMemoryError: Could not allocate " + mb + "MB!";
+		}
 	}
 
 	@GetMapping(value = "/cpuIntensiveTask")

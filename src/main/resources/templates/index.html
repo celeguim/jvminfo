@@ -85,24 +85,24 @@
                     <td th:text="${jvmInfoObj.serverPort}"></td>
                 </tr>
                 <tr>
-                    <td>Total Memory</td>
-                    <td th:text="${jvmInfoObj.totalMem}"></td>
+                    <td>-Xms</td>
+                    <td th:text="${jvmInfoObj.xms}"></td>
                 </tr>
                 <tr>
-                    <td>Used Memory</td>
-                    <td th:text="${jvmInfoObj.usedMem}"></td>
+                    <td>-Xmx</td>
+                    <td th:text="${jvmInfoObj.xmx}"></td>
+                </tr>
+                <tr>
+                    <td>-Xmn</td>
+                    <td th:text="${jvmInfoObj.xmn}"></td>
+                </tr>
+                <tr>
+                    <td>-XX:MaxRAMPercentage</td>
+                    <td th:text="${jvmInfoObj.maxRam}"></td>
                 </tr>
                 <tr>
                     <td>Free Memory</td>
                     <td th:text="${jvmInfoObj.freeMem}"></td>
-                </tr>
-                <tr>
-                    <td>Max Memory</td>
-                    <td th:text="${jvmInfoObj.maxMem}"></td>
-                </tr>
-                <tr>
-                    <td>Timezone</td>
-                    <td th:text="${jvmInfoObj.timezone}"></td>
                 </tr>
                 <tr>
                     <td>App Server</td>
