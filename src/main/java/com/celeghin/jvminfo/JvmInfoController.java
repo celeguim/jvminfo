@@ -3,7 +3,6 @@ package com.celeghin.jvminfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,17 +19,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 @Controller
 public class JvmInfoController {
 
 	private final ApplicationArguments applicationArguments;
-	private static final Logger logger = LoggerFactory.getLogger(JvmInfoController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(JvmInfoController.class);
 
-	@Autowired
-	private GlobalStore globalStore;
+//	@Autowired
+//	private GlobalStore globalStore;
 
 	public JvmInfoController(ApplicationArguments applicationArguments) {
 		this.applicationArguments = applicationArguments;
@@ -38,11 +37,10 @@ public class JvmInfoController {
 
 	@GetMapping(value = "/")
 	String getHome(ModelMap model) {
-		int numThreads = 5; // Number of threads
+//		int numThreads = 5; // Number of threads
 
-		logger.debug("This is a DEBUG log message");
-		logger.info("This is an INFO log message");
-		System.out.println("System.out.println message");
+//		logger.debug("This is a DEBUG log message");
+//		logger.info("This is an INFO log message");
 
 		// Start memory-intensive task in the main thread
 //		Thread[] memoryIntensiveTask = new Thread[numThreads];
