@@ -1,0 +1,3 @@
+name: GitHub Actions
+run-name: ${{ github.actor }} is building out GitHub Actions
+on: [push, pull_request]
