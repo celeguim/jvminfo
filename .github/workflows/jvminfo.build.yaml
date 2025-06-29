@@ -51,7 +51,7 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       -
         name: Build and push
         uses: docker/build-push-action@v6
@@ -85,7 +85,8 @@ jobs:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: echo "$SECRETS_CONTEXT"
 
-      - name: Dump vars context
+      - 
+        name: Dump vars context
         env:
           VARS_CONTEXT: ${{ toJson(vars) }}
         run: echo "$VARS_CONTEXT"
