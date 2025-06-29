@@ -2,7 +2,8 @@
 # Build Stage
 FROM maven:3.8.5-openjdk-17 AS build_image
 # RUN git clone -b jvminfo-v3 https://github.com/celeguim/jvminfo.git
-RUN cd jvminfo && mvn clean install
+# RUN cd jvminfo && mvn clean install
+RUN mvn clean install
 
 ###############################
 # Runtime Stage
