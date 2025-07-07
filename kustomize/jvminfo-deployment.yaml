@@ -2,20 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jvminfo-deployment
+  labels:
+    app: jvminfo-deployment
+
 spec:
-  replicas: 1
   revisionHistoryLimit: 3
+
   selector:
     matchLabels:
       app: jvminfo
+
   template:
     metadata:
       labels:
         app: jvminfo
+
     spec:
       containers:
         - image: celeguim/jvminfo:latest
           name: jvminfo
           ports:
             - containerPort: 8080
-          resources: {}

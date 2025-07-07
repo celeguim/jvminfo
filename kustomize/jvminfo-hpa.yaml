@@ -2,13 +2,16 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: jvminfo-hpa
+
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: jvminfo-deployment
-  minReplicas: 5
-  maxReplicas: 10
+
+  minReplicas: 1
+  maxReplicas: 5
+
   metrics:
   - type: Resource
     resource:
@@ -16,6 +19,7 @@ spec:
       target:
         type: Utilization
         averageUtilization: 60
+
   - type: Resource
     resource:
       name: memory
