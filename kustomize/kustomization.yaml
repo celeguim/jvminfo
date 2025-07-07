@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - jvminfo-deployment.yaml
   - jvminfo-svc.yaml
+  - jvminfo-hpa.yaml
+  
