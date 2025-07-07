@@ -6,8 +6,8 @@ on:
       - jvminfo-v5
 
 jobs:
-  build_jar:
-    name: Build jar
+  docker_build:
+    name: Docker Build
     runs-on: ubuntu-latest
 
     defaults:
