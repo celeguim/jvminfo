@@ -15,7 +15,11 @@ spec:
         app: jvminfo
     spec:
       containers:
-      - image: celeguim/jvminfo:latest
+      - env:
+        - name: JAVA_OPTS
+          value: -XX:MaxRAMPercentage=60 -XX:InitialRAMPercentage=50 -XX:MinRAMPercentage=30
+            -XX:+UseContainerSupport
+        image: celeguim/jvminfo:latest
         name: jvminfo
         ports:
         - containerPort: 8080
