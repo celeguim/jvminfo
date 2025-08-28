@@ -21,6 +21,7 @@ import java.util.List;
 public class JvmInfoController {
 
     private final ApplicationArguments applicationArguments;
+//    LogFactory log = LogFactory.getLog(JvmInfoController.class);
 
     public JvmInfoController(ApplicationArguments applicationArguments) {
         this.applicationArguments = applicationArguments;
