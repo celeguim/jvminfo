@@ -5,10 +5,7 @@ public class JvmInfoModel {
 	public String hostname;
 	public String dateTime;
 	public String country;
-	public String displayCountry;
 	public String displayLanguage;
-	public String displayName;
-	public String localAddress;
 	public String localName;
 	public String localPort;
 	public String remoteHost;
@@ -24,7 +21,6 @@ public class JvmInfoModel {
 	public String serverInfo;
 	public String serverArgs;
 	public String appArgs;
-
 	public String jvm;
 	public String os;
 	public String javaClassVersion;

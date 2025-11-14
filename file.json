@@ -1,0 +1,33 @@
+{
+  "status": "UP",
+  "components": {
+    "diskSpace": {
+      "status": "UP",
+      "details": {
+        "total": 252841029632,
+        "free": 24103211008,
+        "threshold": 10485760,
+        "path": "C:\\Users\\luiz.celeghin\\jvminfo\\.",
+        "exists": true
+      }
+    },
+    "memoryHealth": {
+      "status": "UP",
+      "details": {
+        "memory.usage": "0.33%",
+        "memory.used": 28103912,
+        "memory.max": 8443133952
+      }
+    },
+    "ping": {
+      "status": "UP"
+    },
+    "ssl": {
+      "status": "UP",
+      "details": {
+        "validChains": [],
+        "invalidChains": []
+      }
+    }
+  }
+}

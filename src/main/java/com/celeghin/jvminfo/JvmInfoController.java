@@ -21,7 +21,6 @@ import java.util.List;
 public class JvmInfoController {
 
     private final ApplicationArguments applicationArguments;
-//    LogFactory log = LogFactory.getLog(JvmInfoController.class);
 
     public JvmInfoController(ApplicationArguments applicationArguments) {
         this.applicationArguments = applicationArguments;
@@ -70,28 +69,17 @@ public class JvmInfoController {
 
         jvmInfoObj.country = String.format("%s / %s",
                 request.getLocale().getCountry(), request.getLocale().getDisplayCountry());
-//		jvmInfoObj.displayCountry = request.getLocale().getDisplayCountry();
 
         jvmInfoObj.displayLanguage = String.format("%s / %s",
                 request.getLocale().getDisplayLanguage(), request.getLocale().getDisplayName());
-//        jvmInfoObj.displayName = request.getLocale().getDisplayName();
 
         jvmInfoObj.localName = String.format("%s / %s",
                 request.getLocalName(), request.getLocalAddr());
-//        jvmInfoObj.localAddress = request.getLocalAddr();
 
         jvmInfoObj.dateTime = agora.toString();
         jvmInfoObj.hostname = hostname;
         jvmInfoObj.ip = ip.toString();
         jvmInfoObj.sessionId = session.getId();
-
-//Prop: java.vm.name : OpenJDK 64-Bit Server VM
-//Prop: java.vm.version : 17.0.13+0
-
-//Prop: os.version : 14.7.1
-//Prop: os.arch : aarch64
-
-//Prop: java.class.version : 61.0
 
         jvmInfoObj.jvm = String.format("%s / %s",
                 System.getProperty("java.vm.name"), System.getProperty("java.vm.version"));

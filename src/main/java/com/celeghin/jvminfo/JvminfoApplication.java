@@ -16,16 +16,3 @@ public class JvminfoApplication {
 		SpringApplication.run(JvminfoApplication.class, args);
 	}
 }
-
-
-//Prop: java.vm.name : OpenJDK 64-Bit Server VM
-//Prop: java.vm.version : 17.0.13+0
-
-//Prop: os.version : 14.7.1
-//Prop: os.arch : aarch64
-
-//Prop: java.class.version : 61.0
-
-//Prop: java.runtime.version : 17.0.13+0
-//Prop: java.version : 17.0.13
-//Prop: java.runtime.name : OpenJDK Runtime Environment
