@@ -1,14 +1,13 @@
 package com.celeghin.jvminfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.boot.availability.*;
 import org.springframework.stereotype.Component;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 
-@Component("memoryHealth")
+@Component("memory")
 public class JvmInfoHealthIndicator implements HealthIndicator {
     private static final double THRESHOLD = 0.80; // 80%
 
@@ -48,9 +47,9 @@ public class JvmInfoHealthIndicator implements HealthIndicator {
         }
     }
 
-    // Liveness and Readiness
-    @Autowired
-    ApplicationAvailability applicationAvailability;
+//    // Liveness and Readiness
+//    @Autowired
+//    ApplicationAvailability applicationAvailability;
 //    ApplicationAvailability availability=new ApplicationAvailability() {
 //        @Override
 //        public <S extends AvailabilityState> S getState(Class<S> stateType, S defaultState) {
