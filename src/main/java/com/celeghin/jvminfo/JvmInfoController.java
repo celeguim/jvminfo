@@ -3,11 +3,15 @@ package com.celeghin.jvminfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.Disposable;
+import reactor.core.publisher.Mono;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
@@ -22,12 +26,19 @@ public class JvmInfoController {
 
     private final ApplicationArguments applicationArguments;
 
-    public JvmInfoController(ApplicationArguments applicationArguments) {
+    public JvmInfoController(ApplicationArguments applicationArguments, JvmInfoHealthDepStatus dependencies) {
         this.applicationArguments = applicationArguments;
+        this.dependencies = dependencies;
     }
+
+    private final JvmInfoHealthDepStatus dependencies;
 
     @GetMapping(value = "/")
     String getHome(ModelMap model) {
+
+        boolean up = false;
+        dependencies.setDbUp(up);
+
 
         long mb = 1024 * 1024;
         Runtime runtime = Runtime.getRuntime();
@@ -66,6 +77,8 @@ public class JvmInfoController {
         HttpServletRequest request = attr.getRequest();
 
         JvmInfoModel jvmInfoObj = new JvmInfoModel();
+
+        jvmInfoObj.dbState = up;
 
         jvmInfoObj.country = String.format("%s / %s",
                 request.getLocale().getCountry(), request.getLocale().getDisplayCountry());

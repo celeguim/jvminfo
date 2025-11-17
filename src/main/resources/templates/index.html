@@ -134,10 +134,32 @@
                     </td>
                 </tr>
             </table>
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <label>Kubernetes</label>
+                        <label th:text="'Readiness State: ' + ${jvmInfoObj.dbState}"></label><br>
+                        <label th:text="'Liveness State: ' + ${jvmInfoObj.timezone}"></label><br>
+                        <label> Set Database state
+                            <input name="readiness" onchange="showMsg(this)" type="checkbox"/>
+                        </label>
+                        <br>
+                        <label> Set RabbitMQ state
+                            <input name="liveness" onchange="showMsg(this)" type="checkbox"/>
+                        </label>
+                        <br>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>
 
+<script>
+    function showMsg(value) {
+        alert(value.checked)
+    }
+</script>
 </body>
 
 </html>

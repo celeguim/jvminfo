@@ -24,4 +24,5 @@ public class JvmInfoModel {
     public String jvm;
     public String os;
     public String javaClassVersion;
+    public boolean dbState;
 }
