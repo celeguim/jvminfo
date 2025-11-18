@@ -137,17 +137,21 @@
             <table style="width: 100%;">
                 <tr>
                     <td>
-                        <label>Kubernetes</label><br>
-                        <label th:text="'Readiness State: ' + ${jvmInfoObj.dbState}"></label><br>
-                        <label th:text="'Liveness State: ' + ${jvmInfoObj.rabbitState}"></label><br>
-                        <label> Set Database state
-                            <input id="dbState" onchange="postDbHealth()" type="checkbox"/>
-                        </label>
-                        <br>
-                        <label> Set RabbitMQ state
-                            <input id="rabbitState" onchange="showMsg(this)" type="checkbox"/>
-                        </label>
-                        <br>
+                        <form action="/" id="stateForm" method="POST">
+                            <label>Kubernetes</label><br>
+                            <label th:text="'Readiness State: ' + ${jvmInfoObj.dbState}"></label><br>
+                            <label th:text="'Liveness State: ' + ${jvmInfoObj.rabbitState}"></label><br>
+                            <label> Set Database state
+                                <input id="dbState" name="dbState" onchange="submit()"
+                                       th:checked="${jvmInfoObj.dbState}" type="checkbox"/>
+                            </label>
+                            <br>
+                            <label> Set RabbitMQ state
+                                <input id="rabbitState" name="rabbitState" onchange="submit()"
+                                       th:checked="${jvmInfoObj.rabbitState}" type="checkbox"/>
+                            </label>
+                            <br>
+                        </form>
                     </td>
                 </tr>
             </table>
@@ -156,10 +160,6 @@
 </table>
 
 <script>
-    function showMsg(value) {
-        alert(value.checked)
-    }
-
     function postDbHealth() {
         const value = document.getElementById("dbState").checked;
 
