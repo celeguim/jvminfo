@@ -11,10 +11,12 @@ public class JvmInfoHealthLiveness implements HealthIndicator {
 
     @Override
     public Health health() {
+
         return alive ? Health.up().build() : Health.down().build();
     }
 
     public void setAlive(boolean alive) {
+
         this.alive = alive;
     }
 

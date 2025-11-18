@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/simulate")
 public class JvmInfoHealthSimulationController {
@@ -17,9 +20,12 @@ public class JvmInfoHealthSimulationController {
     }
 
     @PostMapping("/db/{up}")
-    public String setDb(@PathVariable boolean up) {
+    public Map<String, Object> setDb(@PathVariable boolean up) {
         dependencies.setDbUp(up);
-        return "Database set to " + (up ? "UP" : "DOWN");
+        Map<String, Object> result = new HashMap<>();
+        result.put("dbEnabled", up);
+        result.put("status", up ? "UP" : "DOWN");
+        return result;
     }
 
     @PostMapping("/rabbit/{up}")

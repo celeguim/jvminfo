@@ -36,9 +36,11 @@ public class JvmInfoController {
     @GetMapping(value = "/")
     String getHome(ModelMap model) {
 
-        boolean up = false;
-        dependencies.setDbUp(up);
+        boolean dbUp = true;
+        boolean rabbitUp = false;
 
+        dependencies.setDbUp(dbUp);
+        dependencies.setRabbitUp(rabbitUp);
 
         long mb = 1024 * 1024;
         Runtime runtime = Runtime.getRuntime();
@@ -78,7 +80,8 @@ public class JvmInfoController {
 
         JvmInfoModel jvmInfoObj = new JvmInfoModel();
 
-        jvmInfoObj.dbState = up;
+        jvmInfoObj.dbState = dbUp;
+        jvmInfoObj.rabbitState = rabbitUp;
 
         jvmInfoObj.country = String.format("%s / %s",
                 request.getLocale().getCountry(), request.getLocale().getDisplayCountry());

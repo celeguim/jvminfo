@@ -25,4 +25,5 @@ public class JvmInfoModel {
     public String os;
     public String javaClassVersion;
     public boolean dbState;
+    public boolean rabbitState;
 }
