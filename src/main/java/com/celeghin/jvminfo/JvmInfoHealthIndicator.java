@@ -51,25 +51,24 @@ public class JvmInfoHealthIndicator implements HealthIndicator {
     // Liveness and Readiness
     @Autowired
     ApplicationAvailability applicationAvailability;
-//    ApplicationAvailability availability=new ApplicationAvailability() {
-//        @Override
-//        public <S extends AvailabilityState> S getState(Class<S> stateType, S defaultState) {
-//            return null;
-//        }
-//
-//        @Override
-//        public <S extends AvailabilityState> S getState(Class<S> stateType) {
-//            return null;
-//        }
-//
-//        @Override
-//        public <S extends AvailabilityState> AvailabilityChangeEvent<S> getLastChangeEvent(Class<S> stateType) {
-//            return null;
-//        }
-//    };
-//
-//    LivenessState livenessState = availability.getLivenessState();
-//    ReadinessState readinessState = availability.getReadinessState();
+    ApplicationAvailability availability = new ApplicationAvailability() {
+        @Override
+        public <S extends AvailabilityState> S getState(Class<S> stateType, S defaultState) {
+            return null;
+        }
+
+        @Override
+        public <S extends AvailabilityState> S getState(Class<S> stateType) {
+            return null;
+        }
+
+        @Override
+        public <S extends AvailabilityState> AvailabilityChangeEvent<S> getLastChangeEvent(Class<S> stateType) {
+            return null;
+        }
+    };
+
+    LivenessState livenessState = availability.getLivenessState();
+    ReadinessState readinessState = availability.getReadinessState();
 
 }
-
