@@ -1,7 +1,13 @@
 package com.celeghin.jvminfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.availability.ApplicationAvailability;
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.AvailabilityState;
+import org.springframework.boot.availability.LivenessState;
+import org.springframework.boot.availability.ReadinessState;
 import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;
@@ -47,28 +53,28 @@ public class JvmInfoHealthIndicator implements HealthIndicator {
         }
     }
 
-//    // Liveness and Readiness
-//    @Autowired
-//    ApplicationAvailability applicationAvailability;
-//    ApplicationAvailability availability=new ApplicationAvailability() {
-//        @Override
-//        public <S extends AvailabilityState> S getState(Class<S> stateType, S defaultState) {
-//            return null;
-//        }
-//
-//        @Override
-//        public <S extends AvailabilityState> S getState(Class<S> stateType) {
-//            return null;
-//        }
-//
-//        @Override
-//        public <S extends AvailabilityState> AvailabilityChangeEvent<S> getLastChangeEvent(Class<S> stateType) {
-//            return null;
-//        }
-//    };
-//
-//    LivenessState livenessState = availability.getLivenessState();
-//    ReadinessState readinessState = availability.getReadinessState();
+   // Liveness and Readiness
+   @Autowired
+   ApplicationAvailability applicationAvailability;
+   ApplicationAvailability availability=new ApplicationAvailability() {
+       @Override
+       public <S extends AvailabilityState> S getState(Class<S> stateType, S defaultState) {
+           return null;
+       }
+
+       @Override
+       public <S extends AvailabilityState> S getState(Class<S> stateType) {
+           return null;
+       }
+
+       @Override
+       public <S extends AvailabilityState> AvailabilityChangeEvent<S> getLastChangeEvent(Class<S> stateType) {
+           return null;
+       }
+   };
+
+   LivenessState livenessState = availability.getLivenessState();
+   ReadinessState readinessState = availability.getReadinessState();
 
 }
 
