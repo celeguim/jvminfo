@@ -6,6 +6,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -21,14 +23,33 @@ import java.util.List;
 public class JvmInfoController {
 
     private final ApplicationArguments applicationArguments;
+    private final JvmInfoHealthDepStatus dependencies;
 
-    public JvmInfoController(ApplicationArguments applicationArguments) {
+    public JvmInfoController(ApplicationArguments applicationArguments, JvmInfoHealthDepStatus dependencies) {
         this.applicationArguments = applicationArguments;
+        this.dependencies = dependencies;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping("/")
     String getHome(ModelMap model) {
+        boolean dbUp = dependencies.isDbUp();
+        boolean rabbitUp = dependencies.isRabbitUp();
+        model.addAttribute("jvmInfoObj", getModel(dbUp, rabbitUp));
+        return "index";
+    }
 
+    @PostMapping("/")
+    String refreshHome(ModelMap model,
+                       @RequestParam(name = "dbState", required = false) boolean dbState,
+                       @RequestParam(name = "rabbitState", required = false) boolean rabbitState
+                       ) {
+        dependencies.setDbUp(dbState);
+        dependencies.setRabbitUp(rabbitState);
+        model.addAttribute("jvmInfoObj", getModel(dbState, rabbitState));
+        return "index";
+    }
+
+    JvmInfoModel getModel(boolean dbUp, boolean rabbitUp) {
         long mb = 1024 * 1024;
         Runtime runtime = Runtime.getRuntime();
         long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
@@ -106,10 +127,11 @@ public class JvmInfoController {
         jvmInfoObj.timezone = calendar.getTimeZone().getDisplayName();
         jvmInfoObj.appArgs = appArgs.toString();
 
-        model.addAttribute("jvmInfoObj", jvmInfoObj);
+        jvmInfoObj.dbState = dbUp;
+        jvmInfoObj.rabbitState = rabbitUp;
+
         session.invalidate();
 
-        return "index";
+        return jvmInfoObj;
     }
-
 }

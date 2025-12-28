@@ -3,9 +3,11 @@ package com.celeghin.jvminfo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.celeghin.jvminfo",
+})
 public class JvminfoApplication {
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         for (String arg : args) {
             System.out.printf("param %s%n%n", arg);
         }
@@ -13,6 +15,6 @@ public class JvminfoApplication {
             String value = System.getProperty(prop);
             System.out.printf("Prop: %s : %s %n", prop, value);
         }
-		SpringApplication.run(JvminfoApplication.class, args);
-	}
+        SpringApplication.run(JvminfoApplication.class, args);
+    }
 }

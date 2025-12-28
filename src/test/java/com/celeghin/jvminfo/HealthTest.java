@@ -24,6 +24,7 @@ class HealthTest {
 
     @Test
     public void testHealth() throws Exception {
+        health.getHealth(false);
         assertThat(health.applicationAvailability.getLivenessState())
                 .isEqualTo(LivenessState.CORRECT);
 

@@ -3,12 +3,17 @@ package com.celeghin.jvminfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.boot.availability.*;
+import org.springframework.boot.availability.ApplicationAvailability;
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.AvailabilityState;
+import org.springframework.boot.availability.LivenessState;
+import org.springframework.boot.availability.ReadinessState;
 import org.springframework.stereotype.Component;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 
-@Component("memoryHealth")
+@Component("memory")
 public class JvmInfoHealthIndicator implements HealthIndicator {
     private static final double THRESHOLD = 0.80; // 80%
 
