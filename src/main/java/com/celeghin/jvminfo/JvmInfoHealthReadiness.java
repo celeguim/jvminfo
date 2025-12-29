@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component("customReadinessIndicator")
 public class JvmInfoHealthReadiness implements HealthIndicator {
-
     public static JvmInfoHealthDepStatus status;
 
     public JvmInfoHealthReadiness(JvmInfoHealthDepStatus status) {
@@ -15,6 +14,7 @@ public class JvmInfoHealthReadiness implements HealthIndicator {
 
     @Override
     public Health health() {
+        System.out.println("--------------- customReadinessIndicator: health()");
 
         if (!status.isDbUp()) {
             return Health.outOfService().withDetail("database", "down").build();

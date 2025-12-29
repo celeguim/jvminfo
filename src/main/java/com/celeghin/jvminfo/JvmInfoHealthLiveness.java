@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 @Component("customLivenessIndicator")
 public class JvmInfoHealthLiveness implements HealthIndicator {
-
     private volatile boolean alive = true;
 
     @Override
     public Health health() {
 
+        System.out.println("--------------- customLivenessIndicator: health()");
         return alive ? Health.up().build() : Health.down().build();
     }
 

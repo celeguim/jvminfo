@@ -42,7 +42,7 @@ public class JvmInfoController {
     String refreshHome(ModelMap model,
                        @RequestParam(name = "dbState", required = false) boolean dbState,
                        @RequestParam(name = "rabbitState", required = false) boolean rabbitState
-                       ) {
+    ) {
         dependencies.setDbUp(dbState);
         dependencies.setRabbitUp(rabbitState);
         model.addAttribute("jvmInfoObj", getModel(dbState, rabbitState));
