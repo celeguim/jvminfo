@@ -7,7 +7,6 @@ import org.springframework.boot.availability.ApplicationAvailability;
 import org.springframework.boot.availability.AvailabilityChangeEvent;
 import org.springframework.boot.availability.AvailabilityState;
 import org.springframework.stereotype.Component;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 

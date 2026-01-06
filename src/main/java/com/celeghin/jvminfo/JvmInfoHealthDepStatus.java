@@ -1,7 +1,6 @@
 package com.celeghin.jvminfo;
 
 import org.springframework.stereotype.Component;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
