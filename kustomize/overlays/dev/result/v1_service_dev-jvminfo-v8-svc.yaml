@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    environment: dev
+  name: dev-jvminfo-v8-svc
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: jvminfo-v8-deployment
+  type: NodePort

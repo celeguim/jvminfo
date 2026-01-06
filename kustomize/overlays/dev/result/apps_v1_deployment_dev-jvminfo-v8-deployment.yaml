@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jvminfo-v8-deployment
+    environment: dev
+  name: dev-jvminfo-v8-deployment
+spec:
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: jvminfo-v8
+  template:
+    metadata:
+      labels:
+        app: jvminfo-v8
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTS
+          value: -XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport
+        image: celeguim/jvminfo:v8
+        name: jvminfo-v8
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 100m
+            memory: 400Mi
+          requests:
+            cpu: 50m
+            memory: 200Mi
