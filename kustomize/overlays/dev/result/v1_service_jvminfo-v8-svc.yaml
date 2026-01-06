@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     environment: dev
-  name: dev-jvminfo-v8-svc
+  name: jvminfo-v8-svc
 spec:
   ports:
   - port: 8080

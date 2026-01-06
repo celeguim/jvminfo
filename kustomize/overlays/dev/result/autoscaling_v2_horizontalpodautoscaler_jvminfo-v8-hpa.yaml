@@ -3,7 +3,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   labels:
     environment: dev
-  name: dev-jvminfo-v8-hpa
+  name: jvminfo-v8-hpa
 spec:
   maxReplicas: 3
   metrics:
@@ -23,4 +23,4 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: dev-jvminfo-v8-deployment
+    name: jvminfo-v8-deployment

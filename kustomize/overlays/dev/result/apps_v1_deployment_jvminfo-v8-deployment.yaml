@@ -4,7 +4,7 @@ metadata:
   labels:
     app: jvminfo-v8-deployment
     environment: dev
-  name: dev-jvminfo-v8-deployment
+  name: jvminfo-v8-deployment
 spec:
   revisionHistoryLimit: 3
   selector:
@@ -20,6 +20,7 @@ spec:
         - name: JAVA_OPTS
           value: -XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport
         image: celeguim/jvminfo:v8
+        imagePullPolicy: Always
         name: jvminfo-v8
         ports:
         - containerPort: 8080
