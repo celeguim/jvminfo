@@ -13,4 +13,4 @@ EXPOSE 8080
 ENV JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC"
 ENV JAR_ARGS="arg1=val1 arg2=val2"
 
-ENTRYPOINT exec java -jar ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom /app.jar ${JAR_ARGS}
+ENTRYPOINT ["exec", "java", "-jar", "${JAVA_OPTS}", "-Djava.security.egd=file:/dev/./urandom", "/app.jar", "${JAR_ARGS}"]
