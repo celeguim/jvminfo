@@ -17,6 +17,7 @@ spec:
       containers:
         - image: celeguim/jvminfo:v8
           name: jvminfo-v8
+          imagePullPolicy: Always
           env:
             - name: JAVA_OPTS
               value: -XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport
