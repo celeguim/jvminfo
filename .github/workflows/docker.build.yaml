@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMG_TAG: 'celeguim/jvminfo:v8'
+      IMG_TAG: "celeguim/jvminfo:v8"
 
     defaults:
       run:
@@ -45,7 +45,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ IMG_TAG }}
+          images: ${{ env.IMG_TAG }}
 
       - name: Build and push multi-platform images
         uses: docker/build-push-action@v6
@@ -55,7 +55,7 @@ jobs:
             linux/amd64
             linux/arm64
           push: true
-          tags: ${{ IMG_TAG }}
+          tags: ${{ env.IMG_TAG }}
 #          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=${{ runner.arch }}
