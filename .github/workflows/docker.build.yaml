@@ -1,13 +1,12 @@
 name: "GitHub Action to build jvminfo"
 
 env:
-  BRANCH: jvminfo-v8
   IMG_TAG: celeguim/jvminfo:v8
 
 on:
   push:
     branches:
-      - "$BRANCH"
+      - jvminfo-v8
 
 jobs:
   docker_build:
