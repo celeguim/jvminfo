@@ -1,8 +1,5 @@
 name: "GitHub Action to build jvminfo"
 
-env:
-  IMG_TAG: 'celeguim/jvminfo:v8'
-
 on:
   push:
     branches:
@@ -12,6 +9,9 @@ jobs:
   docker_build:
     name: Docker Build
     runs-on: ubuntu-latest
+
+    env:
+      IMG_TAG: 'celeguim/jvminfo:v8'
 
     defaults:
       run:
