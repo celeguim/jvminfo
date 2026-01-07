@@ -11,6 +11,5 @@ COPY --from=build_image ./jvminfo/target/jvminfo*.jar /app.jar
 EXPOSE 8080
 
 ENV JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC"
-ENV JAR_ARGS="arg1=val1 arg2=val2"
-
-ENTRYPOINT ["java", "-jar", "${JAVA_OPTS}", "-Djava.security.egd=file:/dev/./urandom", "/app.jar", "${JAR_ARGS}"]
+ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar"]
+CMD ["arg1=val1", "arg2=val2"]
