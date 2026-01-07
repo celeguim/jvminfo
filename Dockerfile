@@ -13,4 +13,4 @@ EXPOSE 8080
 ENV JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC"
 ENV JAR_ARGS="par1=val1 par2=val2"
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar $JAR_ARGS"]
-CMD ["arg1=val1", "arg2=val2"]
+# CMD ["arg1=val1", "arg2=val2"]
