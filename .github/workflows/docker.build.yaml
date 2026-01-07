@@ -1,9 +1,13 @@
 name: "GitHub Action to build jvminfo"
 
+env:
+  BRANCH: jvminfo-v8
+  IMG_TAG: celeguim/jvminfo:v8
+
 on:
   push:
     branches:
-      - jvminfo-v8
+      - "$BRANCH"
 
 jobs:
   docker_build:
@@ -42,7 +46,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: celeguim/jvminfo:v8
+          images: "$IMG_TAG"
 
       - name: Build and push multi-platform images
         uses: docker/build-push-action@v6
@@ -52,8 +56,8 @@ jobs:
             linux/amd64
             linux/arm64
           push: true
-          # tags: celeguim/jvminfo:v8
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: "$IMG_TAG"
+#          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=${{ runner.arch }}
           cache-to: type=gha,mode=max,scope=${{ runner.arch }}
