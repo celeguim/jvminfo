@@ -3,7 +3,7 @@ name: "GitHub Action to build jvminfo"
 on:
   push:
     branches:
-      - jvminfo-v8
+      - jvminfo-v9
 
 jobs:
   docker_build:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMG_TAG: "celeguim/jvminfo:v8"
+      IMG_TAG: "celeguim/jvminfo:v9"
 
     defaults:
       run:
