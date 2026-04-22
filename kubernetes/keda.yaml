@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: jvminfo-keda
+spec:
+  scaleTargetRef:
+    name: jvminfo-v9-deployment
+  minReplicaCount: 0
+  maxReplicaCount: 5
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://cluster.local
+        metricName: http_requests_total
+        # Query: Calcula a média de requisições por segundo nos últimos 1 minuto
+        query: sum(rate(http_server_requests_seconds_count{uri="/"}[1m]))
+        threshold: '5' # escala se passar de 5 requests/seg
