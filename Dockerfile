@@ -8,7 +8,7 @@ RUN cd jvminfo && mvn clean install
 # Runtime Stage
 FROM eclipse-temurin:17-jdk
 COPY --from=build_image ./jvminfo/target/jvminfo*.jar /app.jar
-EXPOSE 8080
+EXPOSE 8080 9090
 
 ENV JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC"
 ENV JAR_ARGS="par1=jvminfov9 par2=val2"
