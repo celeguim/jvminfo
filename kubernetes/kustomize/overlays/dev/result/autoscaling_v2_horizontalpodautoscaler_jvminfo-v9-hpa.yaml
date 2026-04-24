@@ -1,8 +1,6 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  labels:
-    environment: dev
   name: jvminfo-v9-hpa
 spec:
   maxReplicas: 3
