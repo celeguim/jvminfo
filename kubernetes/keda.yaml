@@ -4,14 +4,17 @@ metadata:
   name: jvminfo-keda
 spec:
   scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
     name: jvminfo-v9-deployment
-  minReplicaCount: 0
-  maxReplicaCount: 5
+  minReplicaCount: 1
+  maxReplicaCount: 3
   triggers:
     - type: prometheus
       metadata:
-        serverAddress: http://cluster.local
+        serverAddress: http://prometheus-server.monitoring.svc.cluster.local
         metricName: http_requests_total
-        # Query: Calcula a média de requisições por segundo nos últimos 1 minuto
+        # calcula a média de requisições por segundo no último minuto [1m]
         query: sum(rate(http_server_requests_seconds_count{uri="/"}[1m]))
-        threshold: '5' # escala se passar de 5 requests/seg
+#        threshold: '5' # escala se passar de 5 requests/seg
+        threshold: '0.5' # escala se passar de 30 requests/min (30/60=0.5)
