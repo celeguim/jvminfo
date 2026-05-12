@@ -1,0 +1,15 @@
+# enable metrics for minikube
+
+kubectl get pods -n kube-system | grep metrics-server
+
+minikube addons enable metrics-server
+
+# Check if the metrics-server pod is running
+kubectl get pods -n kube-system | grep metrics-server
+
+# Test if you can see resource usage
+kubectl top nodes
+kubectl top pods
+
+# disable deployment
+kubectl scale deployment jvminfo-v9-deployment -n dev1 --replicas=0

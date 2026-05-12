@@ -15,7 +15,7 @@ spec:
         app: jvminfo-v9
     spec:
       containers:
-        - image: celeguim/jvminfo:v8
+        - image: celeguim/jvminfo:v9
           name: jvminfo-v9
           imagePullPolicy: Always
           env:

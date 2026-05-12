@@ -19,7 +19,7 @@ spec:
       - env:
         - name: JAVA_OPTS
           value: -XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport
-        image: celeguim/jvminfo:v8
+        image: celeguim/jvminfo:v9
         imagePullPolicy: Always
         name: jvminfo-v9
         ports:
