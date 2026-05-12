@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   labels:
     app: jvminfo-v9-deployment
-    environment: dev1
-  name: jvminfo-v9-deployment
-  namespace: dev1
+    environment: dev3
+  name: dev3-jvminfo-v9-deployment
+  namespace: dev3
 spec:
   revisionHistoryLimit: 3
   selector:

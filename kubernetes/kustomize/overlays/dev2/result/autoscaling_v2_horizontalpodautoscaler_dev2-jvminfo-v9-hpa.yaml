@@ -2,9 +2,9 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
-    environment: dev1
-  name: jvminfo-v9-hpa
-  namespace: dev1
+    environment: dev2
+  name: dev2-jvminfo-v9-hpa
+  namespace: dev2
 spec:
   maxReplicas: 3
   metrics:
@@ -17,11 +17,11 @@ spec:
   - resource:
       name: memory
       target:
-        averageUtilization: 80
+        averageUtilization: 30
         type: Utilization
     type: Resource
   minReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: jvminfo-v9-deployment
+    name: dev2-jvminfo-v9-deployment

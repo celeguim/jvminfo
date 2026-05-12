@@ -3,12 +3,12 @@ kind: Service
 metadata:
   labels:
     environment: dev1
-  name: jvminfo-v9-svc
+  name: dev1-jvminfo-v9-svc-np
   namespace: dev1
 spec:
   ports:
-  - port: 8080
-    targetPort: 8080
+  - nodePort: 30001
+    port: 8080
   selector:
-    app: jvminfo-v9-deployment
+    app: jvminfo-v9
   type: NodePort
