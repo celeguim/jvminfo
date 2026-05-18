@@ -19,7 +19,7 @@ docker run \
 # BUILD
 
 # build for single platform
-docker build -t celeguim/jvminfo:v9 .
+docker build --pull --no-cache -t celeguim/jvminfo:v9 .
 docker push celeguim/jvminfo:v9
 
 # build for multi platform
