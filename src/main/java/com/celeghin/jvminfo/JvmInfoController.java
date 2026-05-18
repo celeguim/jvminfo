@@ -52,10 +52,15 @@ public class JvmInfoController {
     JvmInfoModel getModel(boolean dbUp, boolean rabbitUp) {
         long mb = 1024 * 1024;
         Runtime runtime = Runtime.getRuntime();
+
+//        long freeMem = Runtime.getRuntime().freeMemory() / (1024 * 1024);
+//        long totalMem = Runtime.getRuntime().totalMemory() / (1024 * 1024);
+
         long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
         long freeMem = (runtime.freeMemory() / mb);
         long totalMem = (runtime.totalMemory() / mb);
         long maxMem = (runtime.maxMemory() / mb);
+
         Calendar calendar = Calendar.getInstance();
         List<String> inputArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
         Iterator<String> it = inputArgs.iterator();

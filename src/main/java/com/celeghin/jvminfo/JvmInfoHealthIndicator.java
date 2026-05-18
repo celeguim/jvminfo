@@ -49,6 +49,9 @@ public class JvmInfoHealthIndicator implements HealthIndicator {
         long used = runtime.totalMemory() - runtime.freeMemory();
         double usage = (double) used / max;
 
+        long freeMem = Runtime.getRuntime().freeMemory() / (1024 * 1024);
+        long totalMem = Runtime.getRuntime().totalMemory() / (1024 * 1024);
+
         System.out.println("--------------- Health check for k8s probes");
         System.out.printf("Max non-heap memory %,d%n", bean1.getNonHeapMemoryUsage().getMax());
         System.out.printf("Used non-heap memory %,d%n", bean1.getNonHeapMemoryUsage().getUsed());

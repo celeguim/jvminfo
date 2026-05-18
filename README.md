@@ -31,8 +31,11 @@ docker buildx create \
 # build image for arm64 and amd64
 docker buildx build \
  --tag celeguim/jvminfo:latest \
- --platform linux/arm64/v9,linux/amd64 \
+ --platform linux/arm64,linux/amd64 \
  --builder container \
  --push .
 
+ curl -X POST localhost:8080/simulate/heavyMem
+ curl -X POST localhost:8080/simulate/heavyCPU
+ 
 ```
