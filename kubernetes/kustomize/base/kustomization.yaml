@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - deploy.yaml
   - hpa.yaml
-  - svc-nodeport.yaml
+  # - svc-nodeport.yaml
   - svc-loadbalancer.yaml

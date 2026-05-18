@@ -1,7 +1,10 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: jvminfo-v9-hpa
+  labels:
+    environment: dev3
+  name: dev3-jvminfo-v9-hpa
+  namespace: dev3
 spec:
   maxReplicas: 3
   metrics:
@@ -21,4 +24,4 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: jvminfo-v9-deployment
+    name: dev3-jvminfo-v9-deployment

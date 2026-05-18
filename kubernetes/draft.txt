@@ -1,0 +1,21 @@
+# enable metrics for minikube
+
+minikube addons enable metrics-server
+
+# Check if the metrics-server pod is running
+kubectl get pods -n kube-system | grep metrics-server
+
+# Test if you can see resource usage
+kubectl top nodes
+kubectl top pods
+
+# create ns
+kubectl create ns dev1 dev2
+
+# deploy
+kubectl apply -k kubernetes/kustomize/overlays/dev1/
+kubectl apply -k kubernetes/kustomize/overlays/dev2/
+
+# disable deployment
+kubectl scale deployment.apps/dev1-jvminfo-v9-deployment -n dev1 --replicas=0
+kubectl scale deployment.apps/dev2-jvminfo-v9-deployment -n dev2 --replicas=0

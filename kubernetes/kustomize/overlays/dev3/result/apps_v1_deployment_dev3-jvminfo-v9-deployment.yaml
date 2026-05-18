@@ -3,7 +3,9 @@ kind: Deployment
 metadata:
   labels:
     app: jvminfo-v9-deployment
-  name: jvminfo-v9-deployment
+    environment: dev3
+  name: dev3-jvminfo-v9-deployment
+  namespace: dev3
 spec:
   revisionHistoryLimit: 3
   selector:
@@ -11,10 +13,6 @@ spec:
       app: jvminfo-v9
   template:
     metadata:
-      annotations:
-        prometheus.io/path: /actuator/prometheus
-        prometheus.io/port: "9090"
-        prometheus.io/scrape: "true"
       labels:
         app: jvminfo-v9
     spec:
