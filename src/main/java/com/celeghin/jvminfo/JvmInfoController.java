@@ -79,7 +79,7 @@ public class JvmInfoController {
             ip = InetAddress.getLocalHost();
             hostname = ip.getHostName();
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();

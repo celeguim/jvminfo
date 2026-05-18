@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/simulate")
@@ -39,4 +41,23 @@ public class JvmInfoHealthSimulationController {
         liveness.setAlive(alive);
         return "Liveness set to " + alive;
     }
+
+    @PostMapping("/heavyCPU")
+    void heavyCPU() {
+        int cores = Runtime.getRuntime().availableProcessors();
+        System.out.println("Starting CPU burner on " + cores + " cores...");
+
+        ExecutorService pool = Executors.newFixedThreadPool(cores);
+
+        for (int i = 0; i < cores; i++) {
+            pool.submit(() -> {
+                // Infinite loop performing intensive math operations
+                while (true) {
+                    Math.sin(Math.random());
+                    Math.tan(Math.random());
+                }
+            });
+        }
+    }
+
 }
