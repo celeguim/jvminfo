@@ -35,6 +35,11 @@ public class JvmInfoController {
         boolean dbUp = dependencies.isDbUp();
         boolean rabbitUp = dependencies.isRabbitUp();
         model.addAttribute("jvmInfoObj", getModel(dbUp, rabbitUp));
+        String rnd = (String) model.getAttribute("rnd");
+        if (rnd != null) {
+            String requestCount = (String) model.getAttribute("requestCount");
+            System.out.println("Request count: " + requestCount + " | RND: " + rnd);
+        }
         return "index";
     }
 
