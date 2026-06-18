@@ -23,6 +23,7 @@ docker build --pull --no-cache -t celeguim/jvminfo:v9 .
 docker push celeguim/jvminfo:v9
 
 # build for multi platform
+
 # create the builder as docker-container
 docker buildx create \
 --name container \

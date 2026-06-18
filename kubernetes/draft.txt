@@ -1,5 +1,4 @@
 # enable metrics for minikube
-
 minikube addons enable metrics-server
 
 # Check if the metrics-server pod is running
@@ -21,4 +20,5 @@ kubectl scale deployment.apps/dev1-jvminfo-v9-deployment -n dev1 --replicas=0
 kubectl scale deployment.apps/dev2-jvminfo-v9-deployment -n dev2 --replicas=0
 
 # port forward
+kubectl port-forward -n dev1 deployment/dev1-jvminfo-v9-deployment 8080:8080 --address 0.0.0.0
 kubectl port-forward -n dev3 deployment/dev3-jvminfo-v9-deployment 9080:8080 --address 0.0.0.0
