@@ -197,7 +197,7 @@
             const interval = 1000 / rps;
             const end = Date.now() + durationSeconds * 1000;
 
-            let count = 0;
+            let count = 1;
 
             const timer = setInterval(() => {
                 if (Date.now() > end) {
@@ -208,7 +208,7 @@
                 }
 
                 fetch('/load-test?rnd=' + Math.random() + '&requestCount=' + count)
-                    .catch(() => { }); // ignora erro
+                    .catch((err) => { log.error("Error in load test request:", err); });
 
                 count++;
             }, interval);
