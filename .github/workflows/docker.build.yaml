@@ -61,8 +61,10 @@ jobs:
           tags: ${{ env.IMG_TAG }}
 #          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=${{ runner.arch }}
-          cache-to: type=gha,mode=max,scope=${{ runner.arch }}
+          # cache-from: type=gha,scope=${{ runner.arch }}
+          # cache-to: type=gha,mode=max,scope=${{ runner.arch }}
+          no-cache: true
+
 
   dump_contexts:
     runs-on: ubuntu-latest
