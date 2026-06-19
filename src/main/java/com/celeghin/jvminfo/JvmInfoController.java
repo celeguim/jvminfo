@@ -2,6 +2,8 @@ package com.celeghin.jvminfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import org.slf4j.Logger;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,6 +27,7 @@ public class JvmInfoController {
 
     private final ApplicationArguments applicationArguments;
     private final JvmInfoHealthDepStatus dependencies;
+    private static final Logger log = LoggerFactory.getLogger(JvmInfoController.class);
 
     public JvmInfoController(ApplicationArguments applicationArguments, JvmInfoHealthDepStatus dependencies) {
         this.applicationArguments = applicationArguments;
@@ -39,6 +43,9 @@ public class JvmInfoController {
         if (rnd != null) {
             String requestCount = (String) model.getAttribute("requestCount");
             System.out.println("Request count: " + requestCount + " | RND: " + rnd);
+            System.out.flush();
+
+            log.info("sl4j.Logger: Request count: " + requestCount + " | RND: " + rnd);
         }
         return "index";
     }
