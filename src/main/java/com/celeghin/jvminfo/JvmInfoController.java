@@ -36,7 +36,7 @@ public class JvmInfoController {
     }
 
     @GetMapping("/load-test")
-    public ResponseEntity<String> loadTest(@RequestParam int rnd, @RequestParam int requestCount) {
+    public ResponseEntity<String> loadTest(@RequestParam String rnd, @RequestParam String requestCount) {
         log.info("Recebi: {}", requestCount);
         log.info("Request count: {} | RND: {}", requestCount, rnd);
 
