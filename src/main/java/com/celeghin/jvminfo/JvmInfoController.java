@@ -36,6 +36,9 @@ public class JvmInfoController {
 
     @GetMapping("/")
     String getHome(ModelMap model) {
+        System.out.println("System.out GET / - Home page accessed");
+        log.info("log.info GET / - Home page accessed");
+
         boolean dbUp = dependencies.isDbUp();
         boolean rabbitUp = dependencies.isRabbitUp();
         model.addAttribute("jvmInfoObj", getModel(dbUp, rabbitUp));
