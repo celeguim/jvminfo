@@ -207,7 +207,7 @@
                     return;
                 }
 
-                fetch('/?rnd=' + Math.random() + '&requestCount=' + count)
+                fetch('/load-test?rnd=' + Math.random() + '&requestCount=' + count)
                     .catch(() => { }); // ignora erro
 
                 count++;

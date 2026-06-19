@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,30 +35,28 @@ public class JvmInfoController {
         this.dependencies = dependencies;
     }
 
+    @GetMapping("/load-test")
+    public ResponseEntity<String> loadTest(@RequestParam int rnd, @RequestParam int requestCount) {
+        log.info("Recebi: {}", requestCount);
+        log.info("Request count: {} | RND: {}", requestCount, rnd);
+
+        return ResponseEntity.ok("ok");
+    }
+
     @GetMapping("/")
     String getHome(ModelMap model) {
-        System.out.println("System.out GET / - Home page accessed");
         log.info("log.info GET / - Home page accessed");
 
         boolean dbUp = dependencies.isDbUp();
         boolean rabbitUp = dependencies.isRabbitUp();
         model.addAttribute("jvmInfoObj", getModel(dbUp, rabbitUp));
-        String rnd = (String) model.getAttribute("rnd");
-        if (rnd != null) {
-            String requestCount = (String) model.getAttribute("requestCount");
-            System.out.println("Request count: " + requestCount + " | RND: " + rnd);
-            System.out.flush();
-
-            log.info("sl4j.Logger: Request count: " + requestCount + " | RND: " + rnd);
-        }
         return "index";
     }
 
     @PostMapping("/")
     String refreshHome(ModelMap model,
-                       @RequestParam(name = "dbState", required = false) boolean dbState,
-                       @RequestParam(name = "rabbitState", required = false) boolean rabbitState
-    ) {
+            @RequestParam(name = "dbState", required = false) boolean dbState,
+            @RequestParam(name = "rabbitState", required = false) boolean rabbitState) {
         dependencies.setDbUp(dbState);
         dependencies.setRabbitUp(rabbitState);
         model.addAttribute("jvmInfoObj", getModel(dbState, rabbitState));
@@ -68,8 +67,8 @@ public class JvmInfoController {
         long mb = 1024 * 1024;
         Runtime runtime = Runtime.getRuntime();
 
-//        long freeMem = Runtime.getRuntime().freeMemory() / (1024 * 1024);
-//        long totalMem = Runtime.getRuntime().totalMemory() / (1024 * 1024);
+        // long freeMem = Runtime.getRuntime().freeMemory() / (1024 * 1024);
+        // long totalMem = Runtime.getRuntime().totalMemory() / (1024 * 1024);
 
         long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
         long freeMem = (runtime.freeMemory() / mb);
