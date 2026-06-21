@@ -37,16 +37,14 @@ public class JvmInfoController {
 
     @GetMapping("/load-test")
     public ResponseEntity<String> loadTest(@RequestParam String rnd, @RequestParam String requestCount) {
-        log.info("Recebi: {}", requestCount);
+        log.info("GET /load-test - Load test accessed");
         log.info("Request count: {} | RND: {}", requestCount, rnd);
-
         return ResponseEntity.ok("ok");
     }
 
     @GetMapping("/")
     String getHome(ModelMap model) {
-        log.info("log.info GET / - Home page accessed");
-
+        log.info("GET / - Home page accessed");
         boolean dbUp = dependencies.isDbUp();
         boolean rabbitUp = dependencies.isRabbitUp();
         model.addAttribute("jvmInfoObj", getModel(dbUp, rabbitUp));

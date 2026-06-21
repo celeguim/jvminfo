@@ -2,7 +2,7 @@
 while true;
 do
   clear;
-  curl -s http://localhost:8080/ >/dev/null;
+  curl -s http://localhost:8081/;
   echo "Request enviado...";
   DATA=$(date +%Y-%m-%d_%H-%M-%S)
   echo $DATA
