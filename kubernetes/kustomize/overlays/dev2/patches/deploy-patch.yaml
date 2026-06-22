@@ -13,6 +13,10 @@ spec:
     metadata:
       labels:
         app: jvminfo-v9
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "9090"
     spec:
       containers:
         - image: celeguim/jvminfo:v9
@@ -25,8 +29,8 @@ spec:
             - containerPort: 8080
           resources:
             limits:
+              cpu: 200m
+              memory: 800Mi
+            requests:
               cpu: 100m
               memory: 400Mi
-            requests:
-              cpu: 50m
-              memory: 200Mi

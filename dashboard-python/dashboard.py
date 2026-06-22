@@ -1,4 +1,5 @@
 import asyncio
+import pprint
 import flet as ft
 
 from k8s_client import get_contexts, get_hpas
@@ -45,9 +46,8 @@ def main(page: ft.Page):
             ft.DataColumn(ft.Text("Namespace")),
             ft.DataColumn(ft.Text("App")),
             ft.DataColumn(ft.Text("HPA")),
-            ft.DataColumn(ft.Text("Cur.")),
-            ft.DataColumn(ft.Text("Des.")),
-            ft.DataColumn(ft.Text("Max")),
+            ft.DataColumn(ft.Text("Min/Max")),
+            ft.DataColumn(ft.Text("Cur/Des")),
             ft.DataColumn(ft.Text("CPU %")),
             ft.DataColumn(ft.Text("MEM %")),
             ft.DataColumn(ft.Text("RPS")),
@@ -86,15 +86,28 @@ def main(page: ft.Page):
                 table.rows.clear()
 
                 for item in hpas:
+                    # pprint.pprint(item)
+
                     table.rows.append(
                         ft.DataRow(
                             cells=[
                                 ft.DataCell(ft.Text(item.namespace)),
                                 ft.DataCell(ft.Text(item.app)),
                                 ft.DataCell(ft.Text(item.hpa)),
-                                ft.DataCell(ft.Text(str(item.current_replicas))),
-                                ft.DataCell(ft.Text(str(item.desired_replicas))),
-                                ft.DataCell(ft.Text(str(item.max_replicas))),
+                                ft.DataCell(
+                                    ft.Text(
+                                        str(item.min_replicas)
+                                        + "/"
+                                        + str(item.max_replicas)
+                                    )
+                                ),
+                                ft.DataCell(
+                                    ft.Text(
+                                        str(item.current_replicas)
+                                        + "/"
+                                        + str(item.desired_replicas)
+                                    )
+                                ),
                                 ft.DataCell(
                                     ft.Text(
                                         f"{item.cpu_current or '-'}"
@@ -110,7 +123,7 @@ def main(page: ft.Page):
                                     )
                                 ),
                                 ft.DataCell(ft.Text(str(item.rps))),
-                                ft.DataCell(ft.Text(str(item.p95))),
+                                ft.DataCell(ft.Text(f"{item.p95:.1f}")),
                                 ft.DataCell(ft.Text(str(item.error_rate))),
                                 ft.DataCell(ft.Text(item.status)),
                             ]
@@ -120,7 +133,6 @@ def main(page: ft.Page):
                 page.update()
 
             except Exception as e:
-
                 print(e)
 
             await asyncio.sleep(REFRESH_SECONDS)

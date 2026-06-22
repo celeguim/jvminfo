@@ -1,0 +1,24 @@
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"jvminfo-v9-deployment","environment":"dev2"},"name":"dev2-jvminfo-v9-deployment","namespace":"dev2"},"spec":{"revisionHistoryLimit":3,"selector":{"matchLabels":{"app":"jvminfo-v9"}},"template":{"metadata":{"labels":{"app":"jvminfo-v9"}},"spec":{"containers":[{"env":[{"name":"JAVA_OPTS","value":"-XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport"}],"image":"celeguim/jvminfo:v9","imagePullPolicy":"Always","name":"jvminfo-v9","ports":[{"containerPort":8080}],"resources":{"limits":{"cpu":"100m","memory":"400Mi"},"requests":{"cpu":"50m","memory":"200Mi"}}}]}}}}
+  creationTimestamp: "2026-06-22T02:06:55Z"
+  generation: 2
+  labels:
+    app: jvminfo-v9-deployment
+    environment: dev2
+  name: dev2-jvminfo-v9-deployment
+  namespace: dev2
+  resourceVersion: "27050"
+  uid: 57314146-5b20-417e-a16a-ea432571800c
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: jvminfo-v9
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%

@@ -64,7 +64,6 @@ def get_error_rate(namespace, app):
 
 
 def get_p95(namespace, app):
-
     query = f"""
     histogram_quantile(
       0.95,
@@ -75,10 +74,9 @@ def get_p95(namespace, app):
             app="{app}"
           }}[5m]
         )
-      ) by (le)
+      ) by (namespace,app,le)
     )
     """
-
     return query_value(query)
 
 
@@ -100,7 +98,6 @@ def query_dict(query, group_label="app"):
 
 
 def get_all_rps():
-
     query = """
     sum(
       rate(
@@ -127,7 +124,6 @@ def get_all_rps():
 
 
 def get_all_errors():
-
     query = """
     (
       sum(
@@ -164,7 +160,6 @@ def get_all_errors():
 
 
 def get_all_p95():
-
     query = """
     histogram_quantile(
       0.95,
@@ -172,7 +167,7 @@ def get_all_p95():
         rate(
           http_server_requests_seconds_bucket[5m]
         )
-      ) by (namespace, app, le)
+      ) by (namespace,app,le)
     )
     """
 

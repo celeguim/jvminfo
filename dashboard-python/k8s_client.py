@@ -136,7 +136,6 @@ def get_hpas(context_name, namespace_filter=None):
         metrics = hpa.spec.metrics or []
 
         for metric in metrics:
-
             if metric.type != "Resource":
                 continue
 
@@ -165,7 +164,6 @@ def get_hpas(context_name, namespace_filter=None):
         )
 
         for metric in current_metrics:
-
             if metric.type != "Resource":
                 continue
 
@@ -217,7 +215,7 @@ def get_hpas(context_name, namespace_filter=None):
         rps = rps_map.get(key, 0)
 
         error_rate = error_map.get(key, 0)
-        p95 = p95_map.get(key, 0)
+        p95 = p95_map.get(key, 0.0)
 
         #
         # Pods do Deployment
@@ -304,9 +302,9 @@ def get_hpas(context_name, namespace_filter=None):
                 app=app,
                 hpa=hpa.metadata.name,
                 min_replicas=minimum,
+                max_replicas=maximum,
                 current_replicas=current,
                 desired_replicas=desired,
-                max_replicas=maximum,
                 cpu_target=cpu_target,
                 cpu_current=cpu_current,
                 cpu_current_value=cpu_current_value,
