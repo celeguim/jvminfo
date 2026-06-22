@@ -19,7 +19,7 @@ spec:
         prometheus.io/port: "9090"
     spec:
       containers:
-        - image: celeguim/jvminfo:latest
+        - image: celeguim/jvminfo:v9
           name: jvminfo-v9
           imagePullPolicy: Always
           env:

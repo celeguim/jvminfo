@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from kubernetes import client, config
 from kubernetes.config import list_kube_config_contexts
 
@@ -12,13 +14,28 @@ from prometheus_client import (
 )
 
 
+def format_memory_value(value):
+
+    if not value:
+        return "-"
+
+    try:
+        if value.endswith("m"):
+            bytes_value = float(value[:-1]) / 1000
+            mib = bytes_value / 1024 / 1024
+            return f"{mib:.1f} Mi"
+        return value
+
+    except Exception:
+        return value
+
+
 def get_contexts():
     contexts, active = list_kube_config_contexts()
     return {"active": active["name"], "contexts": [c["name"] for c in contexts]}
 
 
 def load_context(context_name):
-
     config.load_kube_config(context=context_name)
 
 
@@ -79,8 +96,9 @@ def get_hpas(context_name, namespace_filter=None):
     result = []
 
     for hpa in hpas.items:
-
         namespace = hpa.metadata.namespace
+
+        # pprint(hpa.status.to_dict())
 
         if (
             namespace_filter
@@ -107,7 +125,6 @@ def get_hpas(context_name, namespace_filter=None):
                 )
 
         except Exception:
-
             app = deployment_name
 
         #
@@ -116,7 +133,7 @@ def get_hpas(context_name, namespace_filter=None):
         cpu_target = None
         memory_target = None
 
-        metrics = hpa.spec.metrics if hpa.spec.metrics else []
+        metrics = hpa.spec.metrics or []
 
         for metric in metrics:
 
@@ -129,32 +146,78 @@ def get_hpas(context_name, namespace_filter=None):
                 continue
 
             if resource.name == "cpu":
-
                 cpu_target = resource.target.average_utilization
 
             elif resource.name == "memory":
-
                 memory_target = resource.target.average_utilization
+
+        #
+        # Current Metrics
+        #
+        cpu_current = None
+        cpu_current_value = None
+
+        memory_current = None
+        memory_current_value = None
+
+        current_metrics = (
+            hpa.status.current_metrics if hpa.status.current_metrics else []
+        )
+
+        for metric in current_metrics:
+
+            if metric.type != "Resource":
+                continue
+
+            resource = metric.resource
+
+            if not resource:
+                continue
+
+            current = resource.current
+
+            if not current:
+                continue
+
+            if resource.name == "cpu":
+                print("cpu", current)
+                cpu_current = current.average_utilization
+                cpu_current_value = current.average_value
+
+            elif resource.name == "memory":
+                print("memory", current)
+                memory_current = current.average_utilization
+                memory_current_value = current.average_value
+
+        #
+        # GAPS
+        #
+        cpu_gap = None
+
+        if cpu_target is not None and cpu_current is not None:
+            cpu_gap = round(cpu_current - cpu_target, 1)
+
+        memory_gap = None
+
+        if memory_target is not None and memory_current is not None:
+            memory_gap = round(memory_current - memory_target, 1)
 
         #
         # Replicas
         #
         current = hpa.status.current_replicas or 0
-
         desired = hpa.status.desired_replicas or 0
-
         minimum = hpa.spec.min_replicas or 1
-
         maximum = hpa.spec.max_replicas or 1
 
         #
         # Prometheus
         #
-        rps = rps_map.get(app, 0)
+        key = f"{namespace}/{app}"
+        rps = rps_map.get(key, 0)
 
-        error_rate = error_map.get(app, 0)
-
-        p95 = p95_map.get(app, 0)
+        error_rate = error_map.get(key, 0)
+        p95 = p95_map.get(key, 0)
 
         #
         # Pods do Deployment
@@ -164,21 +227,15 @@ def get_hpas(context_name, namespace_filter=None):
         pod_count = 0
 
         try:
-
             pods = core.list_namespaced_pod(
                 namespace=namespace, label_selector=f"app={app}"
             )
 
             for pod in pods.items:
-
                 pod_name = pod.metadata.name
-
                 key = f"{namespace}/{pod_name}"
-
                 cpu_total += cpu_map.get(key, 0)
-
                 memory_total += memory_map.get(key, 0)
-
                 pod_count += 1
 
         except Exception:
@@ -187,12 +244,12 @@ def get_hpas(context_name, namespace_filter=None):
         #
         # CPU Médio por Pod
         #
-        cpu_current = round(cpu_total / max(pod_count, 1), 2)
+        # cpu_current = round(cpu_total / max(pod_count, 1), 2)
 
         #
         # Memory Média por Pod
         #
-        memory_current = round(memory_total / max(pod_count, 1), 2)
+        # memory_current = round(memory_total / max(pod_count, 1), 2)
 
         #
         # RPS por Pod
@@ -213,23 +270,32 @@ def get_hpas(context_name, namespace_filter=None):
         # Status
         #
         if current >= maximum:
-
             status = "🔴 MAX"
 
-        elif error_rate > 1:
+        elif (
+            cpu_current is not None
+            and cpu_target is not None
+            and cpu_current > cpu_target
+        ):
+            status = "🔴 CPU"
 
-            status = "🔴 ERRORS"
+        elif (
+            memory_current is not None
+            and memory_target is not None
+            and memory_current > memory_target
+        ):
+            status = "🔴 MEM"
+
+        elif error_rate > 1:
+            status = "🔴 ERR"
 
         elif p95 > 500:
-
-            status = "🟡 LATENCY"
+            status = "🟡 LAT"
 
         elif utilization > 80:
-
             status = "🟡 HIGH"
 
         else:
-
             status = "🟢 OK"
 
         result.append(
@@ -243,8 +309,12 @@ def get_hpas(context_name, namespace_filter=None):
                 max_replicas=maximum,
                 cpu_target=cpu_target,
                 cpu_current=cpu_current,
+                cpu_current_value=cpu_current_value,
                 memory_target=memory_target,
                 memory_current=memory_current,
+                memory_current_value=format_memory_value(memory_current_value),
+                cpu_gap=cpu_gap,
+                memory_gap=memory_gap,
                 rps=rps,
                 rps_per_pod=rps_per_pod,
                 capacity=capacity,

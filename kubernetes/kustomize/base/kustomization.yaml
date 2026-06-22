@@ -4,4 +4,4 @@ resources:
   - deploy.yaml
   - hpa.yaml
   # - svc-nodeport.yaml
-  - svc-loadbalancer.yaml
+  # - svc-loadbalancer.yaml

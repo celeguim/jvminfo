@@ -45,29 +45,29 @@ def main(page: ft.Page):
             ft.DataColumn(ft.Text("Namespace")),
             ft.DataColumn(ft.Text("App")),
             ft.DataColumn(ft.Text("HPA")),
-            ft.DataColumn(ft.Text("Min")),
-            ft.DataColumn(ft.Text("Current")),
-            ft.DataColumn(ft.Text("Desired")),
+            ft.DataColumn(ft.Text("Cur.")),
+            ft.DataColumn(ft.Text("Des.")),
             ft.DataColumn(ft.Text("Max")),
-            ft.DataColumn(ft.Text("CPU Target")),
-            ft.DataColumn(ft.Text("Mem Target")),
+            ft.DataColumn(ft.Text("CPU %")),
+            ft.DataColumn(ft.Text("MEM %")),
             ft.DataColumn(ft.Text("RPS")),
-            ft.DataColumn(ft.Text("RPS/Pod")),
             ft.DataColumn(ft.Text("P95")),
-            ft.DataColumn(ft.Text("Errors %")),
+            ft.DataColumn(ft.Text("Errors")),
             ft.DataColumn(ft.Text("Status")),
         ],
         rows=[],
     )
 
+    table_view = ft.Row(
+        controls=[table],
+        scroll=ft.ScrollMode.ALWAYS,
+        expand=True,
+    )
+
     async def refresh():
-
         while True:
-
             try:
-
                 hpas = get_hpas(cluster.value)
-
                 total_rps = round(sum(x.rps for x in hpas), 2)
 
                 avg_error = round(
@@ -86,21 +86,30 @@ def main(page: ft.Page):
                 table.rows.clear()
 
                 for item in hpas:
-
                     table.rows.append(
                         ft.DataRow(
                             cells=[
                                 ft.DataCell(ft.Text(item.namespace)),
                                 ft.DataCell(ft.Text(item.app)),
                                 ft.DataCell(ft.Text(item.hpa)),
-                                ft.DataCell(ft.Text(str(item.min_replicas))),
                                 ft.DataCell(ft.Text(str(item.current_replicas))),
                                 ft.DataCell(ft.Text(str(item.desired_replicas))),
                                 ft.DataCell(ft.Text(str(item.max_replicas))),
-                                ft.DataCell(ft.Text(item.cpu_target)),
-                                ft.DataCell(ft.Text(item.memory_target)),
+                                ft.DataCell(
+                                    ft.Text(
+                                        f"{item.cpu_current or '-'}"
+                                        f" / "
+                                        f"{item.cpu_target or '-'}"
+                                    )
+                                ),
+                                ft.DataCell(
+                                    ft.Text(
+                                        f"{item.memory_current or '-'}"
+                                        f" / "
+                                        f"{item.memory_target or '-'}"
+                                    )
+                                ),
                                 ft.DataCell(ft.Text(str(item.rps))),
-                                ft.DataCell(ft.Text(str(item.rps_per_pod))),
                                 ft.DataCell(ft.Text(str(item.p95))),
                                 ft.DataCell(ft.Text(str(item.error_rate))),
                                 ft.DataCell(ft.Text(item.status)),
@@ -123,16 +132,16 @@ def main(page: ft.Page):
                 cluster,
                 cards,
                 ft.Divider(),
-                ft.Container(
-                    content=ft.Column([table], scroll=ft.ScrollMode.AUTO), expand=True
-                ),
+                table_view,
             ],
             expand=True,
         )
     )
 
+    page.window_width = 1900
+    page.window_height = 1000
     page.run_task(refresh)
 
 
 if __name__ == "__main__":
-    ft.run(main=main, view=ft.AppView.WEB_BROWSER)
+    ft.run(main=main, host="0.0.0.0", port=8550, view=ft.AppView.WEB_BROWSER)
