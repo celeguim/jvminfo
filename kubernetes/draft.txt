@@ -16,8 +16,8 @@ kubectl apply -k kubernetes/kustomize/overlays/dev1/
 kubectl apply -k kubernetes/kustomize/overlays/dev2/
 
 # disable deployment
-kubectl scale deployment.apps/dev1-jvminfo-v9-deployment -n dev1 --replicas=0
-kubectl scale deployment.apps/dev2-jvminfo-v9-deployment -n dev2 --replicas=0
+kubectl scale deployment.apps/dev1-jvminfo-v9-deployment -n dev1 --replicas=1
+kubectl scale deployment.apps/dev2-jvminfo-v9-deployment -n dev2 --replicas=5
 
 # port forward
 kubectl port-forward -n dev1 deployment/dev1-jvminfo-v9-deployment 8081:8080 --address 0.0.0.0

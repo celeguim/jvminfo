@@ -12,6 +12,10 @@ kubectl get pods -n keda
 helm repo add prometheus-community https://github.io
 helm repo update
 helm install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace
-Get the Prometheus server URL by running these commands in the same shell:
+helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring
+# Get the Prometheus server URL by running these commands in the same shell:
 export POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
 kubectl --namespace monitoring port-forward $POD_NAME 9090
+# Grafana
+kubectl get secret --namespace monitoring prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl port-forward svc/prometheus-stack-grafana 3000:80 --namespace monitoring
