@@ -1,13 +1,13 @@
   annotations:
     deployment.kubernetes.io/revision: "1"
     kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"jvminfo-v9-deployment","environment":"dev1"},"name":"dev1-jvminfo-v9-deployment","namespace":"dev1"},"spec":{"revisionHistoryLimit":3,"selector":{"matchLabels":{"app":"jvminfo-v9"}},"template":{"metadata":{"annotations":{"prometheus.io/path":"/actuator/prometheus","prometheus.io/port":"9090","prometheus.io/scrape":"true"},"labels":{"app":"jvminfo-v9"}},"spec":{"containers":[{"env":[{"name":"JAVA_OPTS","value":"-XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport"}],"image":"celeguim/jvminfo:v9","imagePullPolicy":"Always","name":"jvminfo-v9","ports":[{"containerPort":8080}],"resources":{"limits":{"cpu":"100m","memory":"400Mi"},"requests":{"cpu":"50m","memory":"200Mi"}}}]}}}}
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"jvminfo-v10-deployment","environment":"dev1"},"name":"dev1-jvminfo-v10-deployment","namespace":"dev1"},"spec":{"revisionHistoryLimit":3,"selector":{"matchLabels":{"app":"jvminfo-v10"}},"template":{"metadata":{"annotations":{"prometheus.io/path":"/actuator/prometheus","prometheus.io/port":"9090","prometheus.io/scrape":"true"},"labels":{"app":"jvminfo-v10"}},"spec":{"containers":[{"env":[{"name":"JAVA_OPTS","value":"-XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport"}],"image":"celeguim/jvminfo:v10","imagePullPolicy":"Always","name":"jvminfo-v10","ports":[{"containerPort":8080}],"resources":{"limits":{"cpu":"100m","memory":"400Mi"},"requests":{"cpu":"50m","memory":"200Mi"}}}]}}}}
   creationTimestamp: "2026-06-22T14:56:06Z"
   generation: 2
   labels:
-    app: jvminfo-v9-deployment
+    app: jvminfo-v10-deployment
     environment: dev1
-  name: dev1-jvminfo-v9-deployment
+  name: dev1-jvminfo-v10-deployment
   namespace: dev1
   resourceVersion: "28050"
   uid: 317b2131-cd41-493a-8155-04ff8bdf5e54
@@ -17,7 +17,7 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: jvminfo-v9
+      app: jvminfo-v10
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -28,15 +28,15 @@ spec:
         prometheus.io/port: "9090"
         prometheus.io/scrape: "true"
       labels:
-        app: jvminfo-v9
+        app: jvminfo-v10
     spec:
       containers:
       - env:
         - name: JAVA_OPTS
           value: -XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport
-        image: celeguim/jvminfo:v9
+        image: celeguim/jvminfo:v10
         imagePullPolicy: Always
-        name: jvminfo-v9
+        name: jvminfo-v10
         ports:
         - containerPort: 8080
           protocol: TCP

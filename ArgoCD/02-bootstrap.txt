@@ -1,0 +1,14 @@
+Depois de instalado o argocd ira criar uma entrada no contexto (in-cluster)
+apontando para o minikube
+
+# A aplicaçao root inicialmente precisa ter um deploy manual:
+kubectl apply -f charts/applications/minikube/application-root.yaml
+
+# Gerar o template das aplicacoes
+helm template applications-root-dev charts/ -f charts/applications/minikube/values.yaml
+
+# Lint
+helm lint charts/ -f charts/applications/minikube/values.yaml
+
+# Delete app
+argocd app delete argocd/applications-root-minikube --cascade

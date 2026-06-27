@@ -1,0 +1,51 @@
+# Install ArgoCD CLI
+curl -sSL -o /usr/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+chmod +x /usr/bin/argocd
+
+# Install into argocd namespace
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+# kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "ClusterIP"}}'
+
+# Port-Forward
+kubectl get svc argocd-server -n argocd
+kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8088:80
+172.30.71.145:8088
+
+# Get initial password for admin
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+cP-vtF3xBTTWiXUi
+JMFaVVn2tApvchn0
+
+# Change Password
+argocd account update-password \
+  --account admin \
+  --current-password cP-vtF3xBTTWiXUi \
+  --new-password admin123
+Password updated
+Context 'localhost:8088' updated
+
+# Reset initial password
+argocd admin initial-password reset
+
+# CLI Login
+argocd login 172.30.71.145:8088
+
+# Insecure Access to avoid tls connection warning
+kubectl edit deploy argocd-server -n argocd
+
+      containers:
+      - args:
+        - /usr/local/bin/argocd-server
+        - --insecure
+
+# Backup
+argocd admin export -n argocd > backup.yaml
+
+# Restore
+argocd admin import -n argocd - < backup.yaml
+
+# Add cluster
+argocd cluster add <CLUSTER-CONTEXT>

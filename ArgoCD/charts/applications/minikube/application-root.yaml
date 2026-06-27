@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: applications-root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/celeguim/DevOps.git
+    targetRevision: main
+    path: ArgoCD/charts
+    helm:
+      valueFiles:
+        - applications/minikube/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: celeghin
+  syncPolicy:
+    automated:
+      prune: true      # Automatically delete resources removed from Git
+      selfHeal: true   # Sync if the cluster state changes (e.g., manual kubectl edits)
+      allowEmpty: false
+    retry:
+      limit: 5          # Number of failed sync attempts before giving up
+      backoff:
+        duration: 5s    # Initial delay before the first retry
+        factor: 2       # Multiply delay by this factor for each subsequent retry
+        maxDuration: 3m # Maximum delay between retries
+    syncOptions:
+      - CreateNamespace=true    # Create the destination namespace if it doesn't exist
+      - PruneLast=true          # Prune resources at the end of the sync
+      - ApplyOutOfSyncOnly=true # 2026 Best Practice: Only sync resources that have changed

@@ -6,10 +6,10 @@ Simple java application to create an HTML Table with the most important JVM prop
 ```shell
 # RUN
 
-docker run --name jvminfo-v9 \
+docker run --name jvminfo-v10 \
 -e JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC" \
 -e JAR_ARGS="par1=val1 par2=val2" \
--d -p 8080:8080 celeguim/jvminfo:v9
+-d -p 8080:8080 celeguim/jvminfo:v10
 
 ```
 
@@ -19,8 +19,8 @@ docker run --name jvminfo-v9 \
 # BUILD
 
 # build for single platform
-docker build --pull --no-cache -t celeguim/jvminfo:v9 .
-docker push celeguim/jvminfo:v9
+docker build --pull --no-cache -t celeguim/jvminfo:v10 .
+docker push celeguim/jvminfo:v10
 
 # build for multi platform
 
