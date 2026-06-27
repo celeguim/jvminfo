@@ -27,3 +27,4 @@
 /.nb-gradle/spring-boot-app.log
 spring-boot-app.log
 /.DS_Store
+bin/
