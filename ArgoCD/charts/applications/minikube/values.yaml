@@ -25,7 +25,7 @@ applications:
     namespace: celeghin
     project: default
     repoURL: https://github.com/celeguim/jvminfo.git
-    targetRevision: v9
+    targetRevision: jvminfo-v9
     path: kubernetes/kustomize/overlays/dev1/result
     cluster: in-cluster
     autosync: true
@@ -34,7 +34,7 @@ applications:
     namespace: celeghin
     project: default
     repoURL: https://github.com/celeguim/jvminfo.git
-    targetRevision: v10
+    targetRevision: jvminfo-v10
     path: kubernetes/kustomize/overlays/dev2/result
     cluster: in-cluster
     autosync: true

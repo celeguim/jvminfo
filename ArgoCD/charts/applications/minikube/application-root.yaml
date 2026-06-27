@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/celeguim/DevOps.git
-    targetRevision: main
+    repoURL: https://github.com/celeguim/jvminfo.git
+    targetRevision: jvminfo-v10
     path: ArgoCD/charts
     helm:
       valueFiles:
