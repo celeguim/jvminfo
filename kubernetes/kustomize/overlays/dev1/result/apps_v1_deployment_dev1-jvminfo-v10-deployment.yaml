@@ -26,9 +26,23 @@ spec:
           value: -XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport
         image: celeguim/jvminfo:v10
         imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health/liveness
+            port: 9090
+          periodSeconds: 10
+          timeoutSeconds: 3
         name: jvminfo-v10
         ports:
         - containerPort: 8080
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health/readiness
+            port: 9090
+          periodSeconds: 10
+          timeoutSeconds: 5
         resources:
           limits:
             cpu: 100m
@@ -36,3 +50,9 @@ spec:
           requests:
             cpu: 50m
             memory: 400Mi
+        startupProbe:
+          failureThreshold: 18
+          httpGet:
+            path: /actuator/health/liveness
+            port: 9090
+          periodSeconds: 10

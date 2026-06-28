@@ -18,8 +18,8 @@ class HealthTest {
     @LocalManagementPort
     int managementPort;
 
-	@Autowired
-	private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     JvmInfoHealthIndicator health;
