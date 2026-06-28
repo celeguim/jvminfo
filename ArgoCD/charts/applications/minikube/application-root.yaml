@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: applications-root
+  name: jvminfo-v10-root
   namespace: argocd
 spec:
   project: default
