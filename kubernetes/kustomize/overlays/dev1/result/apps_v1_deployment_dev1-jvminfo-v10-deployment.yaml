@@ -45,14 +45,8 @@ spec:
           timeoutSeconds: 5
         resources:
           limits:
-            cpu: 100m
-            memory: 500Mi
+            cpu: 200m
+            memory: 900Mi
           requests:
-            cpu: 50m
-            memory: 400Mi
-        startupProbe:
-          failureThreshold: 18
-          httpGet:
-            path: /actuator/health/liveness
-            port: 9090
-          periodSeconds: 10
+            cpu: 100m
+            memory: 700Mi
