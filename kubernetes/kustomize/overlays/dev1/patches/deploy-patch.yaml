@@ -29,19 +29,19 @@ spec:
             - containerPort: 8080
           resources:
             limits:
-              cpu: 100m
-              memory: 500Mi
+              cpu: 200m
+              memory: 900Mi
             requests:
-              cpu: 50m
-              memory: 400Mi
+              cpu: 100m
+              memory: 700Mi
     
           # STARTUP: Dá até 3 minutos para o app subir, conectar no MySQL e criar as tabelas
-          startupProbe:
-            httpGet:
-              path: /actuator/health/liveness
-              port: 9090
-            failureThreshold: 18
-            periodSeconds: 10
+          # startupProbe:
+          #   httpGet:
+          #     path: /actuator/health/liveness
+          #     port: 9090
+          #   failureThreshold: 18
+          #   periodSeconds: 10
 
           # LIVENESS: Se falhar 3 vezes seguidas (30s), o K8s reinicia o Pod (morte cerebral)
           livenessProbe:
