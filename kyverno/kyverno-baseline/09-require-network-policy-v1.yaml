@@ -1,0 +1,32 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-network-policy
+
+spec:
+  validationFailureAction: Audit
+  background: false
+  
+  rules:
+    - name: require-network-policy
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+                - StatefulSet
+
+      context:
+        - name: netpol_count
+          apiCall:
+            urlPath: "/apis/networking.k8s.io/v1/namespaces/{{request.namespace}}/networkpolicies"
+            jmesPath: "items[?label_match(spec.podSelector.matchLabels, `{{ request.object.spec.template.metadata.labels }}`)] | length(@)"
+      
+      validate:
+        message: "No matching NetworkPolicy was found for this workload."
+        deny:
+          conditions:
+            any:
+              - key: "{{ netpol_count }}"
+                operator: LessThan
+                value: 1

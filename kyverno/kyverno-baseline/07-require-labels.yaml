@@ -1,0 +1,33 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-labels
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: require-standard-labels
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+                - StatefulSet
+                - DaemonSet
+      validate:
+        message: "Labels app.kubernetes.io/name, environment, owner, and cost-center are required."
+        pattern:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "?*"
+              environment: "?*"
+              owner: "?*"
+              cost-center: "?*"
+          spec:
+            template:
+              metadata:
+                labels:
+                  app.kubernetes.io/name: "?*"
+                  environment: "?*"
+                  owner: "?*"
+                  cost-center: "?*"

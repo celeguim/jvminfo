@@ -1,0 +1,17 @@
+helm repo add kyverno https://kyverno.github.io/kyverno/
+helm repo update
+helm install kyverno kyverno/kyverno -n kyverno --create-namespace
+
+k delete events --all -A
+
+k explain pods.spec
+k explain pods.spec.containers
+k explain pods.spec.containers.livenessPod
+
+k get clusterpolicies
+k get clusterpolicyreport
+k get policyreport -A   -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,PASS:.summary.pass,FAIL:.summary.fail,WARN:.summary.warn,ERROR:.summary.error'
+
+kubectl run teste-privilegiado --image=nginx --dry-run=server --overrides='{"spec":{"containers":[{"name":"nginx","image":"nginx","securityContext":{"privileged":true}}]}}'
+
+kubectl run teste-root --image=nginx --dry-run=server --overrides='{"spec":{"containers":[{"name":"nginx","image":"nginx","securityContext":{"runAsNonRoot":false}}]}}'

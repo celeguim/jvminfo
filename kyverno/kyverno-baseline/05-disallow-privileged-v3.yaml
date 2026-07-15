@@ -1,0 +1,60 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: pod-security-enforcement
+  annotations:
+    policies.kyverno.io/title: Restrições de Segurança de Pods
+    policies.kyverno.io/category: Pod Security Standards
+    policies.kyverno.io/description: >-
+      Validações separadas com mensagens de erro distintas para 
+      uso de privilégios e execução como root.
+
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: block-privileged-containers
+      match:
+        any:
+        - resources:
+            kinds:
+            - DaemonSet
+            - Deployment
+            - Job
+            - StatefulSet
+            - Pod
+      validate:
+        message: "Privileged containers are not allowed."
+        pattern:
+          spec:
+            =(containers):
+              - =(securityContext):
+                  =(privileged): false
+            =(template):
+              spec:
+                =(containers):
+                  - =(securityContext):
+                      =(privileged): false
+
+    - name: require-non-root-user
+      match:
+        any:
+        - resources:
+            kinds:
+            - DaemonSet
+            - Deployment
+            - Job
+            - StatefulSet
+            - Pod
+      validate:
+        message: "Containers must run as a non-root user."
+        pattern:
+          spec:
+            =(containers):
+              - =(securityContext):
+                  runAsNonRoot: true
+            =(template):
+              spec:
+                =(containers):
+                  - =(securityContext):
+                      runAsNonRoot: true
