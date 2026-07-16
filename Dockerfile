@@ -1,12 +1,14 @@
 ###############################
 # Build Stage
-FROM maven:3.8.5-openjdk-17 AS build_image
+# FROM maven:3.8.5-openjdk-17 AS build_image
+# Replace the old, buggy image
+FROM maven:3.9.9-eclipse-temurin-17 AS build_image
 RUN git clone -b jvminfo-v10 https://github.com/celeguim/jvminfo.git
 RUN cd jvminfo && mvn clean install
 
 ###############################
 # Runtime Stage
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:17-jre
 COPY --from=build_image ./jvminfo/target/jvminfo*.jar /app.jar
 EXPOSE 8080 9090
 
