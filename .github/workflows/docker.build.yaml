@@ -44,11 +44,11 @@ jobs:
           version: latest
           
       # generates relevant tags and labels
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v6
-        with:
-          images: ${{ env.IMG_TAG }}
+      # - name: Extract metadata (tags, labels) for Docker
+      #   id: meta
+      #   uses: docker/metadata-action@v6
+      #   with:
+      #     images: ${{ env.IMG_TAG }}
 
       - name: Build and push multi-platform images
         uses: docker/build-push-action@v7
