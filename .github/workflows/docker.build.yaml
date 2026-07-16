@@ -64,32 +64,33 @@ jobs:
           # cache-from: type=gha,scope=${{ runner.arch }}
           # cache-to: type=gha,mode=max,scope=${{ runner.arch }}
           no-cache: true
+          cache-from: type=gha,scope=${{ github.run_id }}
+          cache-to: type=gha,mode=max,scope=${{ github.run_id }}
 
-
-  dump_contexts:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump secrets context
-        env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
-        run: echo "$SECRETS_CONTEXT"
-      - name: Dump vars context
-        env:
-          VARS_CONTEXT: ${{ toJson(vars) }}
-        run: echo "$VARS_CONTEXT"
+  # dump_contexts:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Dump GitHub context
+  #       env:
+  #         GITHUB_CONTEXT: ${{ toJson(github) }}
+  #       run: echo "$GITHUB_CONTEXT"
+  #     - name: Dump job context
+  #       env:
+  #         JOB_CONTEXT: ${{ toJson(job) }}
+  #       run: echo "$JOB_CONTEXT"
+  #     - name: Dump steps context
+  #       env:
+  #         STEPS_CONTEXT: ${{ toJson(steps) }}
+  #       run: echo "$STEPS_CONTEXT"
+  #     - name: Dump runner context
+  #       env:
+  #         RUNNER_CONTEXT: ${{ toJson(runner) }}
+  #       run: echo "$RUNNER_CONTEXT"
+  #     - name: Dump secrets context
+  #       env:
+  #         SECRETS_CONTEXT: ${{ toJson(secrets) }}
+  #       run: echo "$SECRETS_CONTEXT"
+  #     - name: Dump vars context
+  #       env:
+  #         VARS_CONTEXT: ${{ toJson(vars) }}
+  #       run: echo "$VARS_CONTEXT"
