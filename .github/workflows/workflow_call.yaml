@@ -21,8 +21,3 @@ jobs:
     with:
       name: ${{ inputs.name }}
       repos: ${{ inputs.repos }}
-
-  hello-action:
-    uses: celeguim/gitops/.github/actions/hello@uat
-    with:
-      name: ${{ inputs.name }}
