@@ -1,4 +1,4 @@
-name: Test
+name: Hello World
 
 on:
   workflow_dispatch:
@@ -8,4 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "Hello ARC"
+      - name: Hello
+        run: |
+          echo "Hello World"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
