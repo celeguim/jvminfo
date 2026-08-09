@@ -1,16 +1,10 @@
-name: Hello World
+name: Hello Caller
 
 on:
   workflow_dispatch:
 
-    #
 jobs:
   hello:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Hello
-        run: |
-          echo "Hello World"
-          echo "Repository: ${{ github.repository }}"
-          echo "Branch: ${{ github.ref_name }}"
+    uses: celeguim/gitops/.github/workflows/hello-reusable.yml@uat
+    with:
+      name: "Luiz"
