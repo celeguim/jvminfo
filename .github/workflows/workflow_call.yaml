@@ -5,6 +5,6 @@ on:
 
 jobs:
   hello:
-    uses: celeguim/gitops/.github/workflows/hello-reusable.yml@uat
+    uses: celeguim/gitops/.github/workflows/hello-reusable.yaml@uat
     with:
       name: "Luiz"
