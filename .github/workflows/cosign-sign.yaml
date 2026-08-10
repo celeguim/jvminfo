@@ -3,21 +3,27 @@ name: Cosign Test
 on:
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   sign:
     runs-on: ubuntu-latest
 
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: us-east-1
+          role-session-name: github-cosign-${{ github.run_id }}
+
+      - name: Check AWS identity
+        run: aws sts get-caller-identity
 
       - name: Sign image
         uses: celeguim/gitops/.github/actions/cosign-sign@uat
         with:
-          # image: ghcr.io/celeguim/jvminfo:latest -- will fail
-          image: ghcr.io/celeguim/jvminfo@sha256:03c03b8c4a39d036d9fa6c56d096e39488810d3cc289687a7d43d7c1a083fc1a
-          # key: ${{ secrets.COSIGN_KEY }}
-          key: awskms:///alias/container-signing
+          image: ghcr.io/celeguim/jvminfo@sha256:03c03b8c4a39d036d9fa6c5d096e39488810d3cc289687a7d43d7c1a083fc1a
+          key: awskms:///alias/SEU_ALIAS
