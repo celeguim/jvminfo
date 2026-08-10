@@ -8,9 +8,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
       - name: Sign image
         uses: celeguim/gitops/.github/actions/cosign-sign@uat
         with:
           # image: ghcr.io/celeguim/jvminfo:latest -- will fail
           image: ghcr.io/celeguim/jvminfo@sha256:03c03b8c4a39d036d9fa6c56d096e39488810d3cc289687a7d43d7c1a083fc1a
-          key: ${{ secrets.COSIGN_KEY }}
+          # key: ${{ secrets.COSIGN_KEY }}
+          key: awskms:///alias/container-signing
