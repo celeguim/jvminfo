@@ -32,7 +32,11 @@ jobs:
             "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com" \
             | jq -r '.value')
 
-          echo "OIDC claims:"
+          echo "$TOKEN" \
+            | cut -d '.' -f1 \
+            | base64 -d 2>/dev/null \
+            | jq
+
           echo "$TOKEN" \
             | cut -d '.' -f2 \
             | base64 -d 2>/dev/null \
@@ -42,16 +46,11 @@ jobs:
                 sub,
                 repository,
                 repository_id,
-                repository_owner,
-                repository_owner_id,
                 ref,
-                workflow,
-                job_workflow_ref,
-                iat,
-                exp
+                kid
               }'
-
-          python3 -V
+              
+          echo $(python3 -V)
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
