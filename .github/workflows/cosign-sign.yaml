@@ -86,24 +86,25 @@ jobs:
             "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com" \
             | jq -r '.value')
 
-          echo "$TOKEN" \
-            | cut -d '.' -f1 \
-            | base64 -d 2>/dev/null \
-            | jq
+          echo "OIDC claims:"
 
-          echo "$TOKEN" \
-            | cut -d '.' -f2 \
-            | base64 -d 2>/dev/null \
+          PAYLOAD=$(echo "$TOKEN" | cut -d '.' -f2)
+
+          # JWT usa base64url sem padding
+          PAYLOAD=$(printf '%s' "$PAYLOAD" | tr '_-' '/+')
+          PAYLOAD="${PAYLOAD}$(printf '%*s' $(( (4 - ${#PAYLOAD} % 4) % 4 )) '' | tr ' ' '=')"
+
+          printf '%s' "$PAYLOAD" \
+            | base64 -d \
             | jq '{
                 iss,
                 aud,
                 sub,
                 repository,
                 repository_id,
-                ref,
-                kid
+                ref
               }'
-              
+                            
           echo $(python3 -V)
 
       - name: Configure AWS credentials
