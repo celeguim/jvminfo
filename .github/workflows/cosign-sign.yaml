@@ -24,6 +24,37 @@ jobs:
           echo "Role configured: ${ROLE_ARN:+YES}"
           echo "Role: $ROLE_ARN"
 
+      - name: Inspect OIDC signing key
+        shell: bash
+        run: |
+          echo $(python3 -V)
+
+          TOKEN=$(curl -sSf \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com" \
+            | jq -r '.value')
+
+          KID=$(echo "$TOKEN" \
+            | cut -d '.' -f1 \
+            | base64 -d 2>/dev/null \
+            | jq -r '.kid')
+
+          echo "Token kid: $KID"
+
+          echo "GitHub JWKS:"
+          curl -sSf https://token.actions.githubusercontent.com/.well-known/jwks \
+            | jq --arg KID "$KID" '
+                {
+                  total_keys: (.keys | length),
+                  matching_keys: [.keys[] | select(.kid == $KID) | {
+                    kid,
+                    kty,
+                    alg,
+                    use
+                  }]
+                }
+              '
+
       - name: Inspect OIDC claims
         shell: bash
         run: |
