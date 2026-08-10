@@ -1,0 +1,23 @@
+name: Hello Caller
+#
+on:
+  workflow_dispatch:
+    inputs:
+      repos:
+        description: "Nome da imagem interna"
+        required: true
+        default: "gitops"
+        type: string
+
+      name:
+        description: "Qual é o seu nome?"
+        required: true
+        default: "Luiz"
+        type: string
+
+jobs:
+  hello:
+    uses: celeguim/gitops/.github/workflows/hello-reusable.yaml@uat
+    with:
+      name: ${{ inputs.name }}
+      repos: ${{ inputs.repos }}

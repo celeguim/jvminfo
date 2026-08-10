@@ -1,0 +1,15 @@
+name: Cosign Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sign image
+        uses: celeguim/gitops/.github/actions/cosign-sign@uat
+        with:
+          image: ghcr.io/celeguim/jvminfo:latest
+          key: ${{ secrets.COSIGN_KEY }}
