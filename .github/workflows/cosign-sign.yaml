@@ -12,6 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug OIDC
+        uses: github/actions-oidc-debugger@main
+
+      - name: Check OIDC
+        run: |
+          echo "ACTIONS_ID_TOKEN_REQUEST_URL=${ACTIONS_ID_TOKEN_REQUEST_URL:+SET}"
+          echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN=${ACTIONS_ID_TOKEN_REQUEST_TOKEN:+SET}"
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
