@@ -25,4 +25,5 @@ jobs:
             --role-arn "$ROLE_ARN" \
             --role-session-name "github-cosign-${GITHUB_RUN_ID}" \
             --web-identity-token "$TOKEN" \
-            --region us-east-1
+            --endpoint-url https://sts.us-east-1.amazonaws.com
+

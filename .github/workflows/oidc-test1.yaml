@@ -1,0 +1,47 @@
+name: OIDC Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test GitHub OIDC endpoints
+        shell: bash
+        run: |
+          echo "=== Discovery ==="
+          curl -fsS https://token.actions.githubusercontent.com/.well-known/openid-configuration | jq '{
+            issuer,
+            jwks_uri
+          }'
+
+          echo
+          echo "=== JWKS ==="
+          curl -fsS https://token.actions.githubusercontent.com/.well-known/jwks \
+            | jq '{keys: (.keys | length)}'
+
+          echo
+          echo "=== STS regional ==="
+          aws sts get-caller-identity \
+            --endpoint-url https://sts.us-east-1.amazonaws.com
+
+      - name: Test AWS OIDC directly
+        shell: bash
+        env:
+          ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
+        run: |
+          TOKEN=$(curl -sSf \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com" \
+            | jq -r '.value')
+
+          aws sts assume-role-with-web-identity \
+            --role-arn "$ROLE_ARN" \
+            --role-session-name "github-cosign-${GITHUB_RUN_ID}" \
+            --web-identity-token "$TOKEN" \
+            --region us-east-1
