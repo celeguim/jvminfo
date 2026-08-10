@@ -24,6 +24,29 @@ jobs:
           echo "Role configured: ${ROLE_ARN:+YES}"
           echo "Role: $ROLE_ARN"
 
+      - name: Inspect GitHub TLS chain
+        shell: bash
+        run: |
+          openssl s_client \
+            -servername token.actions.githubusercontent.com \
+            -connect token.actions.githubusercontent.com:443 \
+            -showcerts </dev/null 2>/dev/null \
+            | awk '
+              /BEGIN CERTIFICATE/ { n++; out="/tmp/cert-" n ".pem" }
+              out { print > out }
+              /END CERTIFICATE/ { close(out); out="" }
+            '
+
+          for cert in /tmp/cert-*.pem; do
+            echo "========================================"
+            echo "$cert"
+            openssl x509 -in "$cert" \
+              -noout \
+              -subject \
+              -issuer \
+              -fingerprint -sha1
+          done
+
       - name: Inspect OIDC signing key
         shell: bash
         run: |
