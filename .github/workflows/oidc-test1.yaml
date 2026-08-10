@@ -1,4 +1,4 @@
-name: OIDC Test
+name: OIDC Test 1
 
 on:
   workflow_dispatch:
