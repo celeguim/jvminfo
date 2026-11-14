@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: jvminfo-v10-hpa
+  name: jvminfo-v11-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: jvminfo-v10-deployment
+    name: jvminfo-v11-deployment
   minReplicas: 1
   maxReplicas: 3
   metrics:

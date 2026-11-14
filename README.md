@@ -5,22 +5,20 @@ Simple java application to create an HTML Table with the most important JVM prop
 
 ```shell
 # RUN
-
-docker run --name jvminfo-v10 \
--e JAVA_OPTS="-Xms10m -Xmx20m -XX:+UseG1GC" \
+docker run --name jvminfo-v11 \
+-e JAVA_OPTS="-Xms120m -Xmx240m -XX:+UseG1GC" \
 -e JAR_ARGS="par1=val1 par2=val2" \
--d -p 8080:8080 celeguim/jvminfo:v10
+-d -p 8080:8080 celeguim/jvminfo:v11
 
 ```
 
-###### TEST </br>[http://localhost:8080/jvminfo/](http://localhost:8080/)
+###### TEST </br>[http://localhost:8080/](http://localhost:8080/)
 
 ```shell
 # BUILD
-
 # build for single platform
-docker build --pull --no-cache -t celeguim/jvminfo:v10 .
-docker push celeguim/jvminfo:v10
+docker build --pull --no-cache -t celeguim/jvminfo:v11 .
+docker push celeguim/jvminfo:v11
 
 # build for multi platform
 

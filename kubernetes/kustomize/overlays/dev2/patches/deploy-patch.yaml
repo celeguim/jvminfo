@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jvminfo-v10-deployment
+  name: jvminfo-v11-deployment
   labels:
-    app: jvminfo-v10-deployment
+    app: jvminfo-v11-deployment
 spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: jvminfo-v10
+      app: jvminfo-v11
   template:
     metadata:
       labels:
-        app: jvminfo-v10
+        app: jvminfo-v11
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/actuator/prometheus"
         prometheus.io/port: "9090"
     spec:
       containers:
-        - image: celeguim/jvminfo:v10
-          name: jvminfo-v10
+        - image: celeguim/jvminfo:v11
+          name: jvminfo-v11
           imagePullPolicy: Always
           env:
             - name: JAVA_OPTS

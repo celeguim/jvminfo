@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jvminfo-v10-deployment
+  name: jvminfo-v11-deployment
   labels:
-    app: jvminfo-v10-deployment
+    app: jvminfo-v11-deployment
 spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: jvminfo-v10
+      app: jvminfo-v11
   template:
     metadata:
       labels:
-        app: jvminfo-v10
+        app: jvminfo-v11
     spec:
       containers:
-        - image: celeguim/jvminfo:v10
-          name: jvminfo-v10
+        - image: celeguim/jvminfo:v11
+          name: jvminfo-v11
           env:
           - name: JAVA_OPTS
             value: -XX:MaxRAMPercentage=80.0 -XX:+UseContainerSupport
