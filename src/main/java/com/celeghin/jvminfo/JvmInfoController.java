@@ -65,9 +65,6 @@ public class JvmInfoController {
         long mb = 1024 * 1024;
         Runtime runtime = Runtime.getRuntime();
 
-        // long freeMem = Runtime.getRuntime().freeMemory() / (1024 * 1024);
-        // long totalMem = Runtime.getRuntime().totalMemory() / (1024 * 1024);
-
         long usedMem = ((runtime.totalMemory() - runtime.freeMemory()) / mb);
         long freeMem = (runtime.freeMemory() / mb);
         long totalMem = (runtime.totalMemory() / mb);
